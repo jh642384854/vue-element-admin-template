@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.username" placeholder="用户名" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-select v-model="listQuery.status" placeholder="用户状态" clearable style="width:120px" class="filter-item"  @change="handleFilter">
+      <el-select v-model="listQuery.status" placeholder="用户状态" clearable style="width:120px" class="filter-item">
         <el-option v-for="item in adminUserStatus" :key="item.key" :label="item.display_name" :value="item.key" />
       </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -50,7 +50,7 @@
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.row.id,scope.$index, list)">删除</el-button>
+            @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -58,7 +58,7 @@
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="70px" style="width: 300px; margin-left:50px;">
+      <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="70px">
         <el-form-item label="账户名" prop="username">
           <el-input v-model="ruleForm.username" />
         </el-form-item>
@@ -67,19 +67,21 @@
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="ruleForm.status">
-            <el-radio label="1">正常</el-radio>
-            <el-radio label="0">禁用</el-radio>
+            <el-radio v-for="status in adminUserStatus" :label="status.key" :key="status.key">{{status.display_name}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="修改" v-if="textMap[dialogStatus] == '修改'">
+          <el-radio-group v-model.number="modifyPass">
+            <el-radio-button label=0>不修改</el-radio-button>
+            <el-radio-button label=1>修改</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="密码" prop="password" v-if="modifyPass">
           <el-input  type="password" v-model="ruleForm.password" />
         </el-form-item>
         <el-form-item label="角色" prop="roles">
           <el-checkbox-group v-model="ruleForm.roles">
-            <!-- <el-checkbox v-for="role in adminRoles" :label="role.id" :key="role.id" name="uroles">{{role.role_name}}</el-checkbox> -->
-            <el-checkbox label="1" name="uroles">超管</el-checkbox>
-            <el-checkbox label="2" name="uroles">编辑</el-checkbox>
-            <el-checkbox label="3" name="uroles">客服</el-checkbox>
+            <el-checkbox v-for="role in adminRoles" :label="role.role_id" :key="role.role_id">{{role.role_name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -88,7 +90,7 @@
           取消
         </el-button>
         <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
-          创建
+          {{ textMap[dialogStatus] }}
         </el-button>
       </div>
     </el-dialog>
@@ -102,9 +104,12 @@ import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' 
 
 const adminUserStatus = [
-  { key:'1',display_name:"正常"},
-  { key:'0',display_name:"禁用"},
+  { key:1,display_name:"正常"},
+  { key:0,display_name:"禁用"},
 ]
+
+//声明一个全局变量，这个变量在vue beforeCreate()生命周期被指向vue实例
+let _this;
 
 export default {
   name: 'adminUser',
@@ -120,11 +125,18 @@ export default {
     },
     rolesFilter(roles){
       var roleName = ''
-      for(var index in roles){
-        roleName += roles[index]['role_name']+','
+      for(var index in _this.adminRoles){
+        for(var n in roles){
+          if(roles[n] == _this.adminRoles[index]['role_id']){
+              roleName += _this.adminRoles[index]['role_name']+','
+          }
+        }
       }
       return roleName.substring(0, roleName.length-1);
     }
+  },
+  beforeCreate: function () {
+      _this = this
   },
   data() {
     return {
@@ -134,15 +146,16 @@ export default {
       listQuery: {
         page: 1,
         limit: 20,
-        username: undefined,
-        status: undefined,
+        username: '',
+        status: '',
       },
+      modifyPass:0,
       adminUserStatus,
       adminRoles:[],
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        update: '编辑',
+        update: '修改',
         create: '创建'
       },
       ruleForm: {
@@ -168,6 +181,7 @@ export default {
     }
   },
   created() {
+    this.getAllRoles()
     this.getList()
   },
   methods: {
@@ -182,9 +196,11 @@ export default {
       })
     },
     getAllRoles(){
-      fetchAllRoels().then(response => {
-        this.adminRoles = response.data
-      })
+      if(this.adminRoles.length <= 0){
+        fetchAllRoels().then(response => {
+          this.adminRoles = response.data
+        })
+      }
     },
     filterStatus(value, row) {
       return row.status === value
@@ -194,6 +210,7 @@ export default {
     },
     handleFilter() {
       this.listQuery.page = 1
+      this.getList()
     },
     resetTemp() {
       this.ruleForm = {
@@ -219,9 +236,8 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           createAdminUser(this.ruleForm).then((response) => {
-            console.log(response)
-            this.ruleForm.id = response.id
-            this.ruleForm.created_at = '2019-08-07 15:59:39'
+            this.ruleForm.id = response.data.last_id
+            this.ruleForm.created_at = response.data.created_at
             this.list.unshift(this.ruleForm)
             this.dialogFormVisible = false
             this.$notify({
@@ -237,7 +253,6 @@ export default {
     handleEdit(index, row) {
       this.getAllRoles()
       this.ruleForm = Object.assign({}, row)
-      this.ruleForm.timestamp = new Date(this.ruleForm.timestamp)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -248,7 +263,6 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.ruleForm)
-          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
           updateAdminUser(tempData).then(() => {
             for (const v of this.list) {
               if (v.id === this.ruleForm.id) {
@@ -269,9 +283,17 @@ export default {
       })
     },
     //删除用户
-    handleDelete(id,index, rows) {
-      deleteAdminUser(id).then(response=>{
-        this.getList()
+    handleDelete(row) {
+      deleteAdminUser(row.id).then(response=>{
+        //this.getList()
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.list.indexOf(row)
+        this.list.splice(index, 1)
       })
     }
   }
