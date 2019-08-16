@@ -106,6 +106,289 @@ export const constantRoutes = [
   },
 
   {
+    path: '/article',
+    component: Layout,
+    redirect: '/article/list',
+    name: '内容管理',
+    meta: { title: '内容管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '权限',
+        component: () => import('@/views/test/index'),
+        meta: { title: '文章管理', icon: 'table' }
+      },
+      {
+        path: 'page',
+        name: '单页内容',
+        component: () => import('@/views/pages/index'),
+        meta: { title: '单页内容', icon: 'table' }
+      },
+      {
+        path: 'pageedit/:id(\\d+)',
+        component: () => import('@/views/pages/edit'),
+        name: '修改单页',
+        meta: { title: '修改单页', noCache: true, activeMenu: '/article/page' },
+        hidden: true
+      },
+      {
+        path: 'categories',
+        name: '栏目',
+        component: () => import('@/views/categories/index'),
+        meta: { title: '栏目', icon: 'tree' }
+      },
+      {
+        path: 'comments',
+        name: '评论',
+        component: () => import('@/views/test/index'),
+        meta: { title: '评论', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    path: '/settings',
+    component: Layout,
+    redirect: '/settings/sys',
+    name: '系统设置',
+    meta: { title: '系统设置', icon: 'example' },
+    children: [
+      {
+        path: 'sys',
+        name: '系统设置',
+        component: () => import('@/views/test/index'),
+        meta: { title: '系统设置', icon: 'table' }
+      },
+      {
+        path: 'diy',
+        name: '自定义设置',
+        component: () => import('@/views/test/index'),
+        meta: { title: '自定义设置', icon: 'tree' }
+      },
+      {
+        path: 'smtp',
+        name: 'SMTP设置',
+        component: () => import('@/views/test/index'),
+        meta: { title: 'SMTP设置', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    path: '/wxgzh',
+    component: Layout,
+    redirect: '/wxgzh/config',
+    name: '微信公众号',
+    meta: { title: '微信公众号', icon: 'example' },
+    children: [
+      {
+        path: 'config',
+        name: '公众号设置',
+        component: () => import('@/views/test/index'),
+        meta: { title: '公众号设置', icon: 'table' },
+        children:[
+          {
+            path: 'config',
+            name: '接口配置',
+            component: () => import('@/views/test/index'),
+            meta: { title: '公众号接口配置', icon: 'table' },
+          },
+          {
+            path: 'wxmenu',
+            name: '菜单配置',
+            component: () => import('@/views/test/index'),
+            meta: { title: '公众号菜单配置', icon: 'table' },
+          },
+          {
+            path: 'tplmessage',
+            name: '微信模版消息',
+            component: () => import('@/views/test/index'),
+            meta: { title: '微信模版消息', icon: 'table' },
+          }
+        ]
+      },
+      {
+        path: 'pageconfig',
+        name: '页面设置',
+        component: () => import('@/views/test/index'),
+        meta: { title: '页面设置', icon: 'tree' }
+      },
+      {
+        path: 'autoreply',
+        name: '自动回复',
+        component: () => import('@/views/test/index'),
+        meta: { title: '自动回复', icon: 'tree' },
+        children:[
+          {
+            path: 'focus',
+            name: '微信关注回复',
+            component: () => import('@/views/test/index'),
+            meta: { title: '微信关注回复', icon: 'table' },
+          },
+          {
+            path: 'key',
+            name: '关键字回复',
+            component: () => import('@/views/test/index'),
+            meta: { title: '关键字回复', icon: 'table' },
+          },
+          {
+            path: '无效关键字回复',
+            name: 'nousekey',
+            component: () => import('@/views/test/index'),
+            meta: { title: '无效关键字回复', icon: 'table' },
+          }
+        ]
+      },
+      {
+        path: 'customermanage',
+        name: '客服管理',
+        component: () => import('@/views/test/index'),
+        meta: { title: '客服管理', icon: 'tree' }
+      },
+      {
+        path: 'picturetext',
+        name: '图文管理',
+        component: () => import('@/views/test/index'),
+        meta: { title: '图文管理', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    path: '/wxxcx',
+    component: Layout,
+    redirect: '/wxxcx/config',
+    name: '微信小程序',
+    meta: { title: '微信小程序', icon: 'example' },
+    children: [
+      {
+        path: 'config',
+        name: '小程序配置',
+        component: () => import('@/views/test/index'),
+        meta: { title: '小程序配置', icon: 'table' }
+      },
+      {
+        path: 'tplmessage',
+        name: '小程序模版消息',
+        component: () => import('@/views/test/index'),
+        meta: { title: '小程序模版消息', icon: 'tree' }
+      },
+      {
+        path: 'data',
+        name: '模块数据配置',
+        component: () => import('@/views/test/index'),
+        meta: { title: '模块数据配置', icon: 'tree' },
+        children:[
+          {
+            path: 'index_flash',
+            name: '首页幻灯片',
+            component: () => import('@/views/test/index'),
+            meta: { title: '首页幻灯片', icon: 'tree' },
+          },
+          {
+            path: 'index_menu',
+            name: '首页导航按钮',
+            component: () => import('@/views/test/index'),
+            meta: { title: '首页导航按钮', icon: 'tree' },
+          },
+        ]
+      }
+    ]
+  },
+
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/list',
+    name: '会员管理',
+    meta: { title: '会员管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: '会员管理',
+        component: () => import('@/views/test/index'),
+        meta: { title: '会员管理', icon: 'table' }
+      },
+      {
+        path: 'config',
+        name: '会员系统配置',
+        component: () => import('@/views/test/index'),
+        meta: { title: '会员系统配置', icon: 'tree' }
+      }
+    ]
+  },
+
+  {
+    path: '/operation',
+    component: Layout,
+    redirect: '/operation/advs/list',
+    name: '运营管理',
+    meta: { title: '运营管理', icon: 'example' },
+    children: [
+      {
+        path: 'advs',
+        name: '广告管理',
+        component: () => import('@/views/test/index'),
+        meta: { title: '广告管理', icon: 'table' },
+        children:[
+          {
+            path: 'categories',
+            name: '广告类别',
+            component: () => import('@/views/test/index'),
+            meta: { title: '广告类别', icon: 'table' }
+          },
+          {
+            path: 'list',
+            name: '广告列表',
+            component: () => import('@/views/test/index'),
+            meta: { title: '广告列表', icon: 'table' }
+          }
+        ] 
+      },
+      {
+        path: 'links',
+        name: '友情链接',
+        component: () => import('@/views/test/index'),
+        meta: { title: '友情链接', icon: 'table' },
+        children:[
+          {
+            path: 'categories',
+            name: '链接类别',
+            component: () => import('@/views/test/index'),
+            meta: { title: '广告类别', icon: 'table' }
+          },
+          {
+            path: 'list',
+            name: '链接列表',
+            component: () => import('@/views/test/index'),
+            meta: { title: '广告列表', icon: 'table' }
+          }
+        ] 
+      },
+      {
+        path: 'forms',
+        name: '表单管理',
+        component: () => import('@/views/test/index'),
+        meta: { title: '表单管理', icon: 'table' },
+        children:[
+          {
+            path: 'formstpl',
+            name: '表单模版',
+            component: () => import('@/views/test/index'),
+            meta: { title: '表单模版', icon: 'table' }
+          },
+          {
+            path: 'forminstance',
+            name: '表单实例',
+            component: () => import('@/views/test/index'),
+            meta: { title: '表单实例', icon: 'table' }
+          }
+        ] 
+      }
+    ]
+  },
+//http://demo26.crmeb.net/admin/index/index.html
+  {
     path: '/form',
     component: Layout,
     children: [

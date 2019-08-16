@@ -1,111 +1,209 @@
 <template>
   <div class="app-container">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-  <el-form-item label="活动名称" prop="name">
-    <el-input v-model="ruleForm.name"></el-input>
-  </el-form-item>
-  <el-form-item label="活动区域" prop="region">
-    <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-      <el-option label="区域一" value="shanghai"></el-option>
-      <el-option label="区域二" value="beijing"></el-option>
-    </el-select>
-  </el-form-item>
-  <el-form-item label="活动时间" required>
-    <el-col :span="11">
-      <el-form-item prop="date1">
-        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-      </el-form-item>
-    </el-col>
-    <el-col class="line" :span="2">-</el-col>
-    <el-col :span="11">
-      <el-form-item prop="date2">
-        <el-time-picker type="fixed-time" placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
-      </el-form-item>
-    </el-col>
-  </el-form-item>
-  <el-form-item label="即时配送" prop="delivery">
-    <el-switch v-model="ruleForm.delivery"></el-switch>
-  </el-form-item>
-  <el-form-item label="活动性质" prop="type">
-    <el-checkbox-group v-model="ruleForm.type">
-      <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-      <el-checkbox label="地推活动" name="type"></el-checkbox>
-      <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-      <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-    </el-checkbox-group>
-  </el-form-item>
-  <el-form-item label="特殊资源" prop="resource">
-    <el-radio-group v-model="ruleForm.resource">
-      <el-radio label="线上品牌商赞助"></el-radio>
-      <el-radio label="线下场地免费"></el-radio>
-    </el-radio-group>
-  </el-form-item>
-  <el-form-item label="活动形式" prop="desc">
-    <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-    <el-button @click="resetForm('ruleForm')">重置</el-button>
-  </el-form-item>
-</el-form>
+    <div class="filter-container">
+      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
+        创建
+      </el-button>
+    </div>
+
+    <el-table :data="list" border style="width: 100%">
+      <el-table-column prop="role_name" label="名称" sortable width="180">
+      </el-table-column>
+      </el-table-column>
+      <el-table-column prop="listorder" label="排序" sortable width="100">
+      </el-table-column>
+      <el-table-column prop="remark" label="备注">
+      </el-table-column>
+      <el-table-column prop="created_at" label="创建时间" sortable width="180">
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="handleEdit(scope.row.id, scope.row)">编辑</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <pagination v-show="total>0" :total="total"  @pagination="getList" />
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="70px">
+        <el-form-item label="名称" prop="role_name">
+          <el-input v-model="ruleForm.role_name" />
+        </el-form-item>
+        <el-form-item label="备注" prop="remark">
+          <el-input v-model="ruleForm.remark" />
+        </el-form-item>
+        <el-form-item label="排序" prop="listorder">
+          <el-input-number v-model="ruleForm.listorder" :min="1" :max="100"></el-input-number>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+          {{ textMap[dialogStatus] }}
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
-
 <script>
-  export default {
-    data() {
-      return {
-        ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          region: [
-            { required: true, message: '请选择活动区域', trigger: 'change' }
-          ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-          ],
-          resource: [
-            { required: true, message: '请选择活动资源', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写活动形式', trigger: 'blur' }
-          ]
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+import { fetchRolesList,deleteRoles,createRoles,updateRoles } from '@/api/roles'
+import waves from '@/directive/waves'
+import Pagination from '@/components/Pagination' 
+
+
+let _this;
+
+export default {
+  name: 'roles',
+  components: { Pagination },
+  directives: { waves },
+  filters: {
+  },
+  beforeCreate: function () {
+      _this = this
+  },
+  data() {
+    return {
+      list: [],
+      total: 0,
+      listLoading: true,
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '修改',
+        create: '创建'
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      ruleForm: {
+        id:'',
+        created_at:'',
+        role_name:'',
+        remark: '',
+        listorder: ''
+      },
+      rules: {
+        username: [{ required: true, message: '账户名必须填写', trigger: 'blur' }]
       }
     }
+  },
+  created() {
+    this.getList()
+  },
+  methods: {
+    getList() {
+      this.listLoading = true
+      fetchRolesList().then(response => {
+        this.list = response.data.items
+        this.total = response.data.total
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
+    },
+    filterStatus(value, row) {
+      return row.status === value
+    },
+    resetTemp() {
+      this.ruleForm = {
+        role_id:'',
+        created_at:'',
+        name:'',
+        remark: '',
+        listorder: ''
+      }
+    },
+    handleCreate() {
+      this.resetTemp()
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          createRoles(this.ruleForm).then((response) => {
+            this.ruleForm.role_id = response.data.last_id
+            this.ruleForm.created_at = response.data.created_at
+            this.list.unshift(this.ruleForm)
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '创建成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
+    },
+    handleEdit(index, row) {
+      this.ruleForm = Object.assign({}, row)
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.ruleForm)
+          updateRoles(tempData).then(() => {
+            for (const v of this.list) {
+              if (v.role_id === this.ruleForm.role_id) {
+                const index = this.list.indexOf(v)
+                this.list.splice(index, 1, this.ruleForm)
+                break
+              }
+            }
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '更新成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
+    },
+    //删除用户
+    handleDelete(row) {
+      this.$confirm('确定要删除该记录吗？', '确认信息', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '删除',
+        cancelButtonText: '放弃'
+      }).then(() => {
+        deleteRoles(row.id).then(response=>{
+          this.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+          const index = this.list.indexOf(row)
+          this.list.splice(index, 1)
+        })
+      }).catch(action => {
+        this.$message({
+          type: 'info',
+          message: action === 'cancel'
+            ? '放弃操作并离开页面'
+            : '停留在当前页面'
+        })
+      })
+    }
   }
+}
 </script>

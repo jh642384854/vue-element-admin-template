@@ -98,7 +98,8 @@
 </template>
 
 <script>
-import { fetchList,deleteAdminUser,createAdminUser,updateAdminUser,fetchAllRoels } from '@/api/adminuser'
+import { fetchList,deleteAdminUser,createAdminUser,updateAdminUser } from '@/api/adminuser'
+import { fetchRolesList } from '@/api/roles'
 import waves from '@/directive/waves'
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' 
@@ -197,8 +198,8 @@ export default {
     },
     getAllRoles(){
       if(this.adminRoles.length <= 0){
-        fetchAllRoels().then(response => {
-          this.adminRoles = response.data
+        fetchRolesList().then(response => {
+          this.adminRoles = response.data.items
         })
       }
     },
@@ -284,16 +285,28 @@ export default {
     },
     //删除用户
     handleDelete(row) {
-      deleteAdminUser(row.id).then(response=>{
-        //this.getList()
-        this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
+      this.$confirm('确定要删除该记录吗？', '确认信息', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '删除',
+        cancelButtonText: '放弃'
+      }).then(() => {
+        deleteAdminUser(row.id).then(response=>{
+          this.$notify({
+            title: '成功',
+            message: '删除成功',
+            type: 'success',
+            duration: 2000
+          })
+          const index = this.list.indexOf(row)
+          this.list.splice(index, 1)
         })
-        const index = this.list.indexOf(row)
-        this.list.splice(index, 1)
+      }).catch(action => {
+        this.$message({
+          type: 'info',
+          message: action === 'cancel'
+            ? '放弃操作并离开页面'
+            : '停留在当前页面'
+        })
       })
     }
   }
