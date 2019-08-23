@@ -113,9 +113,22 @@ export const constantRoutes = [
     meta: { title: '内容管理', icon: 'example' },
     children: [
       {
+        path: 'add',
+        name: '添加文章',
+        component: () => import('@/views/article/create'),
+        meta: { title: '添加文章', icon: 'table' }
+      },
+      {
+        path: 'articleedit/:id(\\d+)',
+        component: () => import('@/views/article/edit'),
+        name: '修改文章',
+        meta: { title: '修改文章', noCache: true, activeMenu: '/article/list' },
+        hidden: true
+      },
+      {
         path: 'list',
-        name: '权限',
-        component: () => import('@/views/test/index'),
+        name: '文章管理',
+        component: () => import('@/views/article/index'),
         meta: { title: '文章管理', icon: 'table' }
       },
       {

@@ -72,13 +72,13 @@
 </template>
 
 <script>
-import { fetchList2,fetchList,deleteCategories,createCategories,updateCategories } from '@/api/categories.js'  
+import { fetchList2,fetchList,deleteCategories,createCategories,updateCategories } from '@/api/categories'  
 import XEUtils from 'xe-utils'
 
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 //声明一个全局变量，这个变量在vue beforeCreate()生命周期被指向vue实例
-let _this;
+let _this
 var validateEnName = (rule, value, callback) => {
   var reg = /^[a-zA-Z0-9\s]{1,20}$/g;
   if (value === '') {
