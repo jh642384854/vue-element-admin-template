@@ -42,6 +42,9 @@ Vue.use(ElementUI, {
   size:'mini',  //全局size 字段，用于改变组件的默认尺寸
   locale
 })
+//全局挂载变量
+import global_ from "@/utils/global"
+Vue.prototype.GLOBAL = global_
 
 Vue.config.productionTip = false
 

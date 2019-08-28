@@ -341,13 +341,13 @@ export const constantRoutes = [
       {
         path: 'advs',
         name: '广告管理',
-        component: () => import('@/views/test/index'),
+        component: () => import('@/views/advs/advcategories'),
         meta: { title: '广告管理', icon: 'table' },
         children:[
           {
             path: 'categories',
             name: '广告类别',
-            component: () => import('@/views/test/index'),
+            component: () => import('@/views/advs/advcategories'),
             meta: { title: '广告类别', icon: 'table' }
           },
           {
