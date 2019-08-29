@@ -6,7 +6,7 @@
       </el-button>
     </div>
 
-    <vxe-table :size="GLOBAL.VxeTableSize" :data.sync="tableData" :loading="listLoading">
+    <vxe-table size="small" :data.sync="tableData" :loading="listLoading">
       <vxe-table-column type="index" width="60"></vxe-table-column>
       <vxe-table-column field="name" title="类别名称"></vxe-table-column>
       <vxe-table-column field="type" title="广告类型">
@@ -14,8 +14,8 @@
           {{ scope.row.type | advTypeFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="size" title="广告尺寸" :formatter="formatterSize" width="120"></vxe-table-column>
-      <vxe-table-column field="advs" title="广告数量" width="100"></vxe-table-column>
+      <vxe-table-column field="size" title="广告尺寸" :formatter="formatterSize"></vxe-table-column>
+      <vxe-table-column field="advs" title="广告数量"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
       <vxe-table-column field="created_time" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
@@ -23,7 +23,7 @@
           <el-button size="mini" type="success">
             <span @click="handleEdit(row.id, row)">编辑</span>
           </el-button>
-          <router-link :to="'/operation/advs/list?cid='+row.type" class="el-button el-button el-button--mini">
+          <router-link :to="'/article/articleedit/'+row.id" class="el-button el-button el-button--mini">
             <span>广告列表</span>
           </router-link>
           <el-button size="mini" type="danger" v-if="row.advs <= 0" @click="handleDelete(row)">删除</el-button>
@@ -32,12 +32,12 @@
     </vxe-table>
     
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="postForm" label-position="left" label-width="100px">
+      <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="100px">
         <el-form-item label="类型名称" prop="name">
-          <el-input v-model="postForm.name" />
+          <el-input v-model="ruleForm.name" />
         </el-form-item>
-        <el-form-item label="类型" prop="type">
-          <el-select v-model="postForm.type" placeholder="请选择">
+        <el-form-item label="类别" prop="type">
+          <el-select v-model="ruleForm.type" placeholder="请选择">
             <el-option v-for="item in advCatesType"
               :key="item.id"
               :label="item.name"
@@ -48,18 +48,18 @@
         <el-row :gutter="20">
           <el-col :span="8">
               <el-form-item label="版位尺寸 宽:" prop="width" >
-                <el-input v-model.number="postForm.width" />
+                <el-input v-model.number="ruleForm.width" />
               </el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="高:" prop="height" label-width="50px" >
-                 <el-input v-model.number="postForm.height" />
+                 <el-input v-model.number="ruleForm.height" />
               </el-form-item>
             </el-col>
         </el-row>
-        <el-form-item label="广告图片" prop="description">
-          <el-input v-model="postForm.description" />
+        <el-form-item label="描述" prop="description">
+          <el-input v-model="ruleForm.description" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -96,9 +96,6 @@ export default {
   beforeCreate: function () {
       _this = this
   },
-  computed:{
-    
-  },
   data(){
     return {
       listLoading:true,
@@ -111,7 +108,7 @@ export default {
         update: '修改',
         create: '创建'
       },
-      postForm: {
+      ruleForm: {
         name:'',
         type: '',
         width: '',
@@ -148,7 +145,7 @@ export default {
       return row.width + "*" +row.height +"px"
     },
     resetTemp() {
-      this.postForm = {
+      this.ruleForm = {
         name:'',
         type: '',
         description: '',
@@ -168,11 +165,11 @@ export default {
     createData(){
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createAdvCates(this.postForm).then((response) => {
+          createAdvCates(this.ruleForm).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
-              this.postForm.id = response.data.last_id
-              this.postForm.created_time = response.data.created_time
-              this.tableData.unshift(this.postForm)
+              this.ruleForm.id = response.data.last_id
+              this.ruleForm.created_time = response.data.created_time
+              this.tableData.unshift(this.ruleForm)
               this.dialogFormVisible = false
               this.GLOBAL.msgNotify('success','成功',response.data.msg)
             }else{
@@ -183,7 +180,7 @@ export default {
       })
     },
     handleEdit(index, row) {
-      this.postForm = Object.assign({}, row)
+      this.ruleForm = Object.assign({}, row)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -193,13 +190,13 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          const tempData = Object.assign({}, this.postForm)
+          const tempData = Object.assign({}, this.ruleForm)
           updateAdvCates(tempData).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
               for (const v of this.tableData) {
-                if (v.id === this.postForm.id) {
+                if (v.id === this.ruleForm.id) {
                   const index = this.tableData.indexOf(v)
-                  this.tableData.splice(index, 1, this.postForm)
+                  this.tableData.splice(index, 1, this.ruleForm)
                   break
                 }
               }

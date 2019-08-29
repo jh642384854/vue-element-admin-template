@@ -341,7 +341,7 @@ export const constantRoutes = [
       {
         path: 'advs',
         name: '广告管理',
-        component: () => import('@/views/advs/advcategories'),
+        component: () => import('@/views/advs/index'),
         meta: { title: '广告管理', icon: 'table' },
         children:[
           {
@@ -353,7 +353,7 @@ export const constantRoutes = [
           {
             path: 'list',
             name: '广告列表',
-            component: () => import('@/views/test/index'),
+            component: () => import('@/views/advs/list'),
             meta: { title: '广告列表', icon: 'table' }
           }
         ] 
@@ -361,19 +361,19 @@ export const constantRoutes = [
       {
         path: 'links',
         name: '友情链接',
-        component: () => import('@/views/test/index'),
+        component: () => import('@/views/links/index'),
         meta: { title: '友情链接', icon: 'table' },
         children:[
           {
             path: 'categories',
             name: '链接类别',
-            component: () => import('@/views/test/index'),
+            component: () => import('@/views/links/linkcategories'),
             meta: { title: '广告类别', icon: 'table' }
           },
           {
             path: 'list',
             name: '链接列表',
-            component: () => import('@/views/test/index'),
+            component: () => import('@/views/links/index'),
             meta: { title: '广告列表', icon: 'table' }
           }
         ] 

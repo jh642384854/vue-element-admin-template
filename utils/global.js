@@ -1,7 +1,10 @@
-import { Notification } from 'element-ui';
+import { Notification,Message } from 'element-ui';
 
 const SuccessText = "success"
 const ErrorText = "error"
+const VxeTableSize = "mini"  //有以下几种选择：medium / small / mini
+const AllowImageSuffix  = "image/jpeg,image/gif,image/png,image/bmp"
+const UploadAttachmentUrl =  "http://localhost:9528/dev-api/upload"
 
 /**
  * [successNotify 全局操作成功提示]
@@ -21,9 +24,32 @@ function msgNotify($type="success",$title="成功",$msg,$duration=2000){
     return Notification.error(options)
   }
 }
-
+/**
+ * [uploadImageCheck 校验上传图片的合法性]
+ * @param  {[type]} file     [description]
+ * @param  {[type]} filelist [description]
+ * @return {[type]}          [description]
+ */
+function uploadImageCheck(file,filelist){
+  let fileName = file.name
+  let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/
+  if (regex.test(fileName.toLowerCase())) {
+      if(file.size > this.fileSizeLimit){
+        Message.error('选择的图片大小不能超过500KB')
+        return false
+      }
+  } else {
+      Message.error('请选择图片文件')
+      return false
+  }
+  return true
+}
 
 export default {
+  VxeTableSize,
   SuccessText,
-  msgNotify
+  AllowImageSuffix,
+  UploadAttachmentUrl,
+  msgNotify,
+  uploadImageCheck
 }

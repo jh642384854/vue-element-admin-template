@@ -65,7 +65,8 @@
 <script>
 import { fetchList } from '@/api/categories'
 import { fetchListArticles,deleteArticles,fetchArticlesAttributes } from '@/api/articles'  
- 
+
+// 参考手册：https://xuliangzhan.com/xe-utils/index.html#/
 import XEUtils from 'xe-utils'
 
 import Pagination from '@/components/Pagination'   
