@@ -3,6 +3,7 @@ import { Notification,Message } from 'element-ui';
 const SuccessText = "success"
 const ErrorText = "error"
 const VxeTableSize = "mini"  //有以下几种选择：medium / small / mini
+const ImageUploadTips = "只能上传jpg/png文件，且不超过500kb"
 const AllowImageSuffix  = "image/jpeg,image/gif,image/png,image/bmp"
 const UploadAttachmentUrl =  "http://localhost:9528/dev-api/upload"
 
@@ -50,6 +51,7 @@ export default {
   SuccessText,
   AllowImageSuffix,
   UploadAttachmentUrl,
+  ImageUploadTips,
   msgNotify,
   uploadImageCheck
 }

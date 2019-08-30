@@ -169,7 +169,7 @@ export const constantRoutes = [
       {
         path: 'sys',
         name: '系统设置',
-        component: () => import('@/views/test/index'),
+        component: () => import('@/views/settings/sys'),
         meta: { title: '系统设置', icon: 'table' }
       },
       {
@@ -181,7 +181,7 @@ export const constantRoutes = [
       {
         path: 'smtp',
         name: 'SMTP设置',
-        component: () => import('@/views/test/index'),
+        component: () => import('@/views/settings/email'),
         meta: { title: 'SMTP设置', icon: 'tree' }
       }
     ]
@@ -361,22 +361,8 @@ export const constantRoutes = [
       {
         path: 'links',
         name: '友情链接',
-        component: () => import('@/views/links/index'),
-        meta: { title: '友情链接', icon: 'table' },
-        children:[
-          {
-            path: 'categories',
-            name: '链接类别',
-            component: () => import('@/views/links/linkcategories'),
-            meta: { title: '广告类别', icon: 'table' }
-          },
-          {
-            path: 'list',
-            name: '链接列表',
-            component: () => import('@/views/links/index'),
-            meta: { title: '广告列表', icon: 'table' }
-          }
-        ] 
+        component: () => import('@/views/links/list'),
+        meta: { title: '友情链接', icon: 'table' } 
       },
       {
         path: 'forms',

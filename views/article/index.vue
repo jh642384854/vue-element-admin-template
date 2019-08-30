@@ -221,6 +221,7 @@ export default {
 .filter-container .filter-item{
   vertical-align:top
 }
+//表格数据高亮显示样式
 .vxe-table--body .warning-row {
   background: oldlace;
 }

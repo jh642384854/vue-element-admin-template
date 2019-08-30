@@ -16,8 +16,7 @@
           <el-row :gutter="20">
             <el-col :span="4">
               <el-form-item label="是否外链">
-                <el-switch v-model="postForm.is_outside_chain" active-text="是" inactive-text="否" @change="linkSwitch">
-              </el-switch>
+                <el-switch v-model="postForm.is_outside_chain" active-text="是" inactive-text="否" @change="linkSwitch"></el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="12" v-if="postForm.is_outside_chain == true">

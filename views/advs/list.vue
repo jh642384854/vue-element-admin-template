@@ -4,9 +4,10 @@
       <el-button class="filter-item mr10" type="primary" icon="el-icon-edit" @click="handleCreate()">
         创建
       </el-button>
-      <el-button class="filter-item mr10" type="success" icon="el-icon-d-caret" @click="handleCreate()">
-        排序
-      </el-button>
+<!-- 
+  TODO:做可编辑的排序功能，暂时没有实现
+      <el-button class="filter-item mr10" type="success" icon="el-icon-d-caret" @click="handleCreate()">排序</el-button>
+       -->
       <el-button class="filter-item mr10" type="danger"  icon="el-icon-delete" @click="batchDelete()">
         删除
       </el-button>
@@ -65,7 +66,6 @@
           <el-col :span="8">
               <el-form-item label="排序" prop="list_order" >
                 <el-input-number v-model="postForm.list_order" :min="1" :max="100"></el-input-number>
-              </el-switch>
               </el-form-item>
             </el-col>
             <el-col :span="16">
@@ -118,7 +118,7 @@ import Pagination from '@/components/Pagination'
 
 let _this
 export default {
-  name:"advcategories",
+  name:"advs",
   components: { Pagination },
   filters: {
     advCateFilter(type){
@@ -149,7 +149,7 @@ export default {
         limit: 20,
         cid: '',
       },
-
+      listOrders:[],
       dialogStatus: '',
       dialogFormVisible: false,
       textMap: {
@@ -177,7 +177,6 @@ export default {
     this.handerQuery()
     this.getList()
     this.getAdvCategories()
-    console.log(XEUtils.pick(this.advcategories,"id"))
   },
   methods: {
     handerQuery(){
@@ -310,8 +309,22 @@ export default {
     batchDelete(){
       let selectRecords = this.$refs.xTable.getSelectRecords()
       if (selectRecords.length) {
-        console.log(selectRecords)
-        this.$refs.xTable.removeSelecteds()
+        //要删除的广告ID
+        let ids = []
+        for (var i in selectRecords) {
+          ids.push(selectRecords[i].id)
+        }
+        const data = {
+          "ids":ids
+        }
+        deleteAdvs(data).then(response=>{
+          if(response.data.status == this.GLOBAL.SuccessText){
+            this.GLOBAL.msgNotify('success','成功',response.data.msg)
+            this.$refs.xTable.removeSelecteds()
+          }else{
+            this.GLOBAL.msgNotify('error','失败',response.data.msg)
+          }
+        })
       } else {
         this.$alert('请至少选择一条数据！')
       }
@@ -322,7 +335,10 @@ export default {
         confirmButtonText: '删除',
         cancelButtonText: '放弃'
       }).then(() => {
-        deleteAdvs(row.id).then(response=>{
+        const data = {
+          "ids":row.id
+        }
+        deleteAdvs(data).then(response=>{
           if(response.data.status == this.GLOBAL.SuccessText){
             this.GLOBAL.msgNotify('success','成功',response.data.msg)
             const index = this.tableData.indexOf(row)

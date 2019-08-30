@@ -100,15 +100,15 @@ export function fetchAdvsGetOne(params){
 }
 
 /**
- * [deleteAdvs 删除广告]
+ * [deleteAdvs 删除广告，可以单个删除，也可以批量删除]
  * @param  {[type]} id [description]
  * @return {[type]}    [description]
  */
-export function deleteAdvs(id){
+export function deleteAdvs(data){
   return request({
     url: 'advs/delete',
-    method: 'get',
-    params: { id }
+    method: 'post',
+    data
   })
 }
 /**
