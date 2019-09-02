@@ -25,10 +25,12 @@
           <span>创建</span>
         </router-link>
       </el-button>
+      <el-button class="filter-item mr10" type="danger"  icon="el-icon-delete" @click="batchDelete()">删除</el-button>
     </div>
 
     <vxe-table border
       ref="xTable"
+      :size="GLOBAL.VxeTableSize"
       :loading="loading"
       :data.sync="tableData"
       :row-class-name="tableRowClassName"
@@ -170,12 +172,6 @@ export default {
     },
     searchArticle() {
       this.listQuery.page = 1
-      /*if(this.listQuery.pid instanceof Array && this.listQuery.pid.length >0){
-        this.listQuery.pid = this.listQuery.pid.join(",")
-      }
-      if(this.listQuery.dateRange instanceof Array && this.listQuery.dateRange.length >0){
-        this.listQuery.dateRange = this.listQuery.dateRange.join(",")
-      }*/
       this.getList()
     },
     formatTime({ cellValue, row, column }){
@@ -188,19 +184,40 @@ export default {
       }
       return '';
     },
+    batchDelete(){
+      let selectRecords = this.$refs.xTable.getSelectRecords()
+      if (selectRecords.length) {
+        //要删除的链接ID
+        let ids = []
+        for (var i in selectRecords) {
+          ids.push(selectRecords[i].id)
+        }
+        const data = {
+          "ids":ids
+        }
+        deleteArticles(data).then(response=>{
+          if(response.data.status == this.GLOBAL.SuccessText){
+            this.GLOBAL.msgNotify('success','成功',response.data.msg)
+            this.$refs.xTable.removeSelecteds()
+          }else{
+            this.GLOBAL.msgNotify('error','失败',response.data.msg)
+          }
+        })
+      } else {
+        this.$alert('请至少选择一条数据！')
+      }
+    },
     handleDelete(row) {
       this.$confirm('确定要删除该记录吗？', '确认信息', {
         distinguishCancelAndClose: true,
         confirmButtonText: '删除',
         cancelButtonText: '放弃'
       }).then(() => {
-        deleteArticles(row.id).then(response=>{
-          this.$notify({
-            title: '成功',
-            message: '删除成功',
-            type: 'success',
-            duration: 2000
-          })
+        const data = {
+          "ids":row.id
+        }
+        deleteArticles(data).then(response=>{
+          this.GLOBAL.msgNotify('success','成功',response.data.msg)
           const index = this.tableData.indexOf(row)
           this.tableData.splice(index, 1)
         })

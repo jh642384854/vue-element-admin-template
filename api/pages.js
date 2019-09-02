@@ -25,38 +25,15 @@ export function fetchPages(params){
 }
 
 /**
- * [deletepages 删除单页]
- * @param  {[type]} id [description]
- * @return {[type]}    [description]
- */
-export function deletePages(id){
-  return request({
-    url: 'pages/delete',
-    method: 'get',
-    params: { id }
-  })
-}
-/**
- * [createpages 创建单页]
+ * [createpages 创建或保存单页]
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-export function createPages(data) {
+export function savePages(data) {
   return request({
-    url: 'pages/create',
+    url: 'pages/save',
     method: 'post',
     data
   })
 }
-/**
- * [updatepages 修改单页信息]
- * @param  {[type]} data [description]
- * @return {[type]}      [description]
- */
-export function updatePages(data) {
-  return request({
-    url: 'pages/update',
-    method: 'post',
-    data
-  })
-}
+

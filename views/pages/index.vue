@@ -3,24 +3,18 @@
     <vxe-table
       border
       ref="xTable1"
-      :data.sync="tableData"
-      :row-class-name="tableRowClassName"
-      >
-      <vxe-table-column type="selection" width="60"></vxe-table-column>
+      :data.sync="tableData">
+      <vxe-table-column type="index" width="60"></vxe-table-column>
       <vxe-table-column field="catename" width="150" title="所属栏目"></vxe-table-column>
       <vxe-table-column field="title" width="200" title="标题"></vxe-table-column>
       <vxe-table-column field="sort" sortable width="75" title="排序"></vxe-table-column>
-      <vxe-table-column field="status" :filters="statusData" :formatter="formatterStatus" width="75" title="状态"></vxe-table-column>
       <vxe-table-column field="created_time" sortable  width="200" title="创建时间"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
-      <vxe-table-column title="操作">
+      <vxe-table-column title="操作" width="120" >
         <template v-slot="{ row }">
-          <el-button size="mini" type="success">
-          <router-link :to="'/article/pageedit/'+row.id" class="link-type">
-            <span>编辑</span>
+          <router-link :to="'/article/pageedit/'+row.id" class="el-button el-button--success el-button--mini">
+            <span>修改内容</span>
           </router-link>
-          </el-button>
-          <el-button size="mini" type="danger">删除</el-button>
         </template>
       </vxe-table-column>
     </vxe-table>
@@ -48,7 +42,6 @@ export default {
   },
   data() {
     return {
-      statusData:[{label: '正常', value: 1}, {label: '禁用', value: 0}],
       tableData: [],
       total: 0,
       singleCategories:[],
@@ -65,15 +58,6 @@ export default {
         this.total = response.data.total
       })
     },
-    formatterStatus({ cellValue }) {
-      return cellValue === 1 ? '正常' : cellValue === 0 ? '禁用' : ''
-    },
-    tableRowClassName({row, rowIndex}) {
-      if(!row.status){
-        return 'warning-row';
-      }
-      return '';
-    }
   }
 }
 </script>

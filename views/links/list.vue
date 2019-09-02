@@ -266,7 +266,7 @@ export default {
                   break
                 }
               }
-              this.dialogFormVisible = false
+              this.dialogFormVisible = false 
               this.GLOBAL.msgNotify('success','成功',response.data.msg)
             }else{
               this.GLOBAL.msgNotify('error','失败',response.data.msg)

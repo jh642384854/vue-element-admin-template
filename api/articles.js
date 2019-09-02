@@ -40,11 +40,11 @@ export function fetchArticlesAttributes(params){
  * @param  {[type]} id [description]
  * @return {[type]}    [description]
  */
-export function deleteArticles(id){
+export function deleteArticles(data){
   return request({
     url: 'articles/delete',
-    method: 'get',
-    params: { id }
+    method: 'post',
+    data
   })
 }
 /**

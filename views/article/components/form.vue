@@ -127,7 +127,7 @@ import Tinymce from '@/components/Tinymce'
 let _this;
 const defaultForm = {
   id: undefined,
-  pid:'',
+  pid:[],
   title: '', // 标题
   content: '', // 内容
   description: '', // 摘要
@@ -184,6 +184,7 @@ export default {
   },
   methods:{
     init:function(){
+      this.handerQuery()
       if (this.isEdit) {
         const id = this.$route.params && this.$route.params.id
         this.fetchArticleData(id)
@@ -199,6 +200,14 @@ export default {
         this.articleAttributes = response.data.attributes
         this.articleStatus = response.data.status
       })
+    },
+    handerQuery(){
+      this.postForm.pid = []
+      if( Object.keys(this.$route.query).length >0 ){
+        if(typeof(this.$route.query.cid) != 'undefined' && parseInt(this.$route.query.cid) > 0){
+          this.postForm.pid.push(parseInt(this.$route.query.cid))
+        }
+      }
     },
     fetchArticleData(id){
       fetchArticlesGetOne({"id":id}).then(response=>{

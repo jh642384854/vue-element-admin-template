@@ -149,12 +149,6 @@ export const constantRoutes = [
         name: '栏目',
         component: () => import('@/views/categories/index'),
         meta: { title: '栏目', icon: 'tree' }
-      },
-      {
-        path: 'comments',
-        name: '评论',
-        component: () => import('@/views/test/index'),
-        meta: { title: '评论', icon: 'tree' }
       }
     ]
   },
