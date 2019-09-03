@@ -16,16 +16,16 @@
       class="vxe-table-element"
       :edit-config="{trigger: 'manual', mode: 'row'}"
       :tree-config="{children: 'children', expandAll: true}">
-      <vxe-table-column type="index" width="120" title="序号" tree-node></vxe-table-column>
-      <vxe-table-column field="id" width="100" title="ID" ></vxe-table-column>
+      <vxe-table-column type="index" width="300" title="序号" tree-node></vxe-table-column>
+      <vxe-table-column field="id" width="50" title="ID" ></vxe-table-column>
       <vxe-table-column field="mid" width="150" title="栏目模型" >
         <template slot-scope="scope">
           {{ scope.row.mid | modelTypeFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="name" width="150" title="中文名称" ></vxe-table-column>
-      <vxe-table-column field="en_name" width="150" title="英文名称" ></vxe-table-column>
-      <vxe-table-column field="sort" width="100" title="排序" ></vxe-table-column>
+      <vxe-table-column field="name" width="100" title="中文名称" ></vxe-table-column>
+      <vxe-table-column field="en_name" width="100" title="英文名称" show-overflow></vxe-table-column>
+      <vxe-table-column field="sort" width="50" title="排序" ></vxe-table-column>
       <vxe-table-column field="created_time" width="150" title="创建时间"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-header-overflow show-overflow></vxe-table-column>
       <vxe-table-column title="操作">
@@ -123,11 +123,11 @@ export default {
       catModelOptions:[
         {
           "name":"单页模型",
-          'vakye':1
+          'value':1
         },
         {
           "name":"文章模型",
-          'vakye':2
+          'value':2
         }
       ],
       showWordLimit: true,
@@ -202,9 +202,9 @@ export default {
         pid:0,
         mid:'',
         created_time:'',
-        en_name:'',
-        name: '',
-        description: '',
+        en_name:'newcatname',
+        name: '新栏目吗名称',
+        description: '栏目描述',
         sort:1,
         children:[]
       }
@@ -240,6 +240,9 @@ export default {
                     for (const v of rowNode.items) {
                       if(v.id == this.ruleForm.pid){
                         const index = rowNode.items.indexOf(v)
+                        if(typeof(rowNode.items[index].children == "undefined")){
+                          rowNode.items[index].children = []
+                        }
                         rowNode.items[index].children.unshift(this.ruleForm)
                         break
                       }
@@ -271,30 +274,58 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.ruleForm)
-          delete tempData.children  //删除children元素，服务端不需要接收该参数
+          //delete tempData.children  //删除children元素，服务端不需要接收该参数
+          console.log(tempData)
           updateCategories(tempData).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
               let rowNode = XEUtils.findTree(this.list, item => item.id === this.ruleForm.id, this.treeConfig)
-              if (rowNode) {
-                //判断是否是顶级栏目
-                if(rowNode.parent == null){
-                  for (const v of this.list) {
-                    if (v.id === this.ruleForm.id) {
-                      const index = this.list.indexOf(v)
-                      this.list.splice(index, 1, this.ruleForm)
-                      break
+              //把顶级栏目变成二级栏目
+              if(rowNode.parent == null){
+                this.list.forEach(function(item,index,arr){
+                  if(item.id == tempData.id){
+                    arr.splice(index,1)
+                  }
+                  if(item.id == tempData.pid){
+                    arr[index].children.unshift(tempData)
+                  }
+                })
+              }else{
+                //如果更换了栏目的层级关系，没有更改层级关系，就不需要做以下处理
+                if(tempData.pid != rowNode.parent.id){
+                  //如果更换了栏目的层级关系，就需要把原来的关系给删掉，并把新的关系进行更新
+                  rowNode.parent.children.forEach(function(item,index,arr){
+                    if(item.id == tempData.id){
+                      arr.splice(index,1)
+                    }
+                  })
+                  //如果是把栏目直接提成顶级栏目
+                  if(tempData.pid == 0){
+                    this.list.unshift(tempData)
+                  }else{
+                    //删除关系后，还需要更新关系
+                    let parentNode = XEUtils.findTree(this.list, item => item.id === tempData.pid, this.treeConfig)
+                    //这个地方估计还会有问题
+                    if(parentNode.parent == null){
+                      parentNode.items.forEach(function(item,index,arr){
+                        if(item.id == tempData.pid){
+                          arr[index].children.unshift(tempData)
+                        }
+                      })
+                    }else{
+                      parentNode.parent.children.forEach(function(item,index,arr){
+                        if(item.id == tempData.pid){
+                          arr[index].children.unshift(tempData)
+                        }
+                      })
                     }
                   }
                 }else{
-                  console.log(rowNode)
-                  //如果有子栏目
-                  for (const v of rowNode.parent.children) {
-                    if (v.id === this.ruleForm.id) {
-                      const index = rowNode.parent.children.indexOf(v)
-                      rowNode.parent.children.splice(index, 1, this.ruleForm)
-                      break
+                  //没有层级关系的调整，就只需要更新渲染列表的源数据就好了
+                  rowNode.parent.children.forEach(function(item,index,arr){
+                    if(item.id == tempData.id){
+                      arr.splice(index,1,tempData)
                     }
-                  }
+                  })
                 }
               }
               //将categories数据同步更新

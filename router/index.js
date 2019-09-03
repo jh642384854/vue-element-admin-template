@@ -169,7 +169,7 @@ export const constantRoutes = [
       {
         path: 'diy',
         name: '自定义设置',
-        component: () => import('@/views/test/index'),
+        component: () => import('@/views/settings/diy'),
         meta: { title: '自定义设置', icon: 'tree' }
       },
       {
@@ -185,7 +185,7 @@ export const constantRoutes = [
     path: '/wxgzh',
     component: Layout,
     redirect: '/wxgzh/config',
-    name: '微信公众号',
+    name: '微信公众号',  //这块功能可以参考http://www.jhweiphp.com(自己搭建的weiphp项目)，官方文档地址https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html 
     meta: { title: '微信公众号', icon: 'example' },
     children: [
       {

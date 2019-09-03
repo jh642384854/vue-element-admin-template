@@ -91,14 +91,11 @@
 // 参考手册：https://xuliangzhan.com/xe-utils/index.html#/
 // import XEUtils from 'xe-utils'
 
-import { fetchSysConfig,saveSysConfig } from '@/api/settings'
-
-import Pagination from '@/components/Pagination'  
+import { fetchSysConfig,saveSysConfig } from '@/api/settings' 
 
 let _this
 export default {
-  name:"links",
-  components: { Pagination },
+  name:"sysSettings",
   filters: {
 
   },

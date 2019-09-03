@@ -47,3 +47,28 @@ export function saveEmailConfig(data){
     data
   })
 }
+
+/**
+ * [fetchList 获取邮件配置]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
+export function fetchCustomConfig(params){
+  return request({
+    url:"settings/customvariables",
+    method:"get",
+    params
+  })
+}
+/**
+ * [saveEmailConfig 保存自定义配置]
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
+ */
+export function saveCustomConfig(data){
+  return request({
+    url: 'settings/customvariables',
+    method: 'post',
+    data
+  })
+}
