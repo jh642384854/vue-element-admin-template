@@ -6,6 +6,10 @@ const VxeTableSize = "mini"  //有以下几种选择：medium / small / mini
 const ImageUploadTips = "只能上传jpg/png文件，且不超过500kb"
 const AllowImageSuffix  = "image/jpeg,image/gif,image/png,image/bmp"
 const UploadAttachmentUrl =  "http://localhost:9528/dev-api/upload"
+//微信公众号类型
+const WxGzhType = [{value:1,label:'普通订阅号'},{value:2,label:'微信认证订阅号'},{value:3,label:'普通服务号'},{value:4,label:'微信认证服务号'}]
+//问下公众号加密方式
+const WxGzhEncodeType = [{value:1,label:'明文模式'},{value:2,label:'兼容模式'},{value:3,label:'安全模式（推荐）'}]
 
 /**
  * [successNotify 全局操作成功提示]
@@ -52,6 +56,8 @@ export default {
   AllowImageSuffix,
   UploadAttachmentUrl,
   ImageUploadTips,
+  WxGzhType,
+  WxGzhEncodeType,
   msgNotify,
   uploadImageCheck
 }

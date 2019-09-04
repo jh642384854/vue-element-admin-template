@@ -31,7 +31,7 @@
     <vxe-table border
       ref="xTable"
       :size="GLOBAL.VxeTableSize"
-      :loading="loading"
+      :loading="listLoading"
       :data.sync="tableData"
       :row-class-name="tableRowClassName"
       >
@@ -94,7 +94,7 @@ export default {
   },
   data() {
     return {
-      loading:true,
+      listLoading:true,
       listQuery: {
         page: 1,
         limit: 20,
@@ -151,7 +151,7 @@ export default {
   },
   methods: {
     getList() {
-      this.loading = true
+      this.listLoading = true
       //获取栏目列表
       fetchList(this.listQuery).then(response => {
         this.categories = response.data.items
@@ -159,7 +159,7 @@ export default {
       fetchListArticles().then(response => {
         this.tableData = response.data.items
         this.total = response.data.total
-        this.loading = false
+        this.listLoading = false
       })
     },
     getArticleAttribute(){

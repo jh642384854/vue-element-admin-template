@@ -21,6 +21,8 @@ import 'vxe-table/lib/index.css'
 import VXETablePluginElement from 'vxe-table-plugin-element'
 import 'vxe-table-plugin-element/dist/style.css'
 
+//导入iconfont字体
+import '@/assets/iconfont/iconfont.css'
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

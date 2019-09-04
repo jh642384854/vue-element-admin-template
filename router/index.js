@@ -184,79 +184,35 @@ export const constantRoutes = [
   {
     path: '/wxgzh',
     component: Layout,
-    redirect: '/wxgzh/config',
+    redirect: '/wxgzh/list',
     name: '微信公众号',  //这块功能可以参考http://www.jhweiphp.com(自己搭建的weiphp项目)，官方文档地址https://developers.weixin.qq.com/doc/offiaccount/Getting_Started/Overview.html 
     meta: { title: '微信公众号', icon: 'example' },
     children: [
       {
-        path: 'config',
-        name: '公众号设置',
-        component: () => import('@/views/test/index'),
-        meta: { title: '公众号设置', icon: 'table' },
-        children:[
-          {
-            path: 'config',
-            name: '接口配置',
-            component: () => import('@/views/test/index'),
-            meta: { title: '公众号接口配置', icon: 'table' },
-          },
-          {
-            path: 'wxmenu',
-            name: '菜单配置',
-            component: () => import('@/views/test/index'),
-            meta: { title: '公众号菜单配置', icon: 'table' },
-          },
-          {
-            path: 'tplmessage',
-            name: '微信模版消息',
-            component: () => import('@/views/test/index'),
-            meta: { title: '微信模版消息', icon: 'table' },
-          }
-        ]
+        path: 'list',
+        name: '公众号列表',
+        component: () => import('@/views/wxgzh/list'),
+        meta: { title: '公众号列表', icon: 'table' }
       },
       {
-        path: 'pageconfig',
-        name: '页面设置',
-        component: () => import('@/views/test/index'),
-        meta: { title: '页面设置', icon: 'tree' }
+        path: 'create',
+        name: '创建公众号',
+        component: () => import('@/views/wxgzh/create'),
+        meta: { title: '创建公众号', icon: 'table' }
       },
       {
-        path: 'autoreply',
-        name: '自动回复',
-        component: () => import('@/views/test/index'),
-        meta: { title: '自动回复', icon: 'tree' },
-        children:[
-          {
-            path: 'focus',
-            name: '微信关注回复',
-            component: () => import('@/views/test/index'),
-            meta: { title: '微信关注回复', icon: 'table' },
-          },
-          {
-            path: 'key',
-            name: '关键字回复',
-            component: () => import('@/views/test/index'),
-            meta: { title: '关键字回复', icon: 'table' },
-          },
-          {
-            path: '无效关键字回复',
-            name: 'nousekey',
-            component: () => import('@/views/test/index'),
-            meta: { title: '无效关键字回复', icon: 'table' },
-          }
-        ]
+        path: 'wxgzhedit/:id(\\d+)',
+        component: () => import('@/views/wxgzh/edit'),
+        name: '修改公众号',
+        meta: { title: '修改公众号', noCache: true, activeMenu: '/wxgzh/list' },
+        hidden: true
       },
       {
-        path: 'customermanage',
-        name: '客服管理',
-        component: () => import('@/views/test/index'),
-        meta: { title: '客服管理', icon: 'tree' }
-      },
-      {
-        path: 'picturetext',
-        name: '图文管理',
-        component: () => import('@/views/test/index'),
-        meta: { title: '图文管理', icon: 'tree' }
+        path: 'wxgzhpay/:id(\\d+)',
+        component: () => import('@/views/wxgzh/paysetting'),
+        name: '公众号支付配置',
+        meta: { title: '公众号支付配置', noCache: true, activeMenu: '/wxgzh/list' },
+        hidden: true
       }
     ]
   },

@@ -202,9 +202,9 @@ export default {
         pid:0,
         mid:'',
         created_time:'',
-        en_name:'newcatname',
-        name: '新栏目吗名称',
-        description: '栏目描述',
+        en_name:'',
+        name: '',
+        description: '',
         sort:1,
         children:[]
       }

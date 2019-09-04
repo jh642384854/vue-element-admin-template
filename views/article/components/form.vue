@@ -24,9 +24,7 @@
                 <el-input v-model="postForm.outside_chain_url"></el-input>
               </el-form-item>
             </el-col>
-            
           </el-row>
-
           <el-row :gutter="20">
             <el-col :span="4">
               <el-form-item label="状态">
@@ -88,7 +86,7 @@
               multiple
               :on-change="imgListShow"
               list-type="picture">
-              <el-button size="small" type="success">选择图片</el-button>
+              <el-button size="small" type=this.GLOBAL.SuccessText>选择图片</el-button>
               <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
             </el-upload>
           </el-form-item>
@@ -211,7 +209,7 @@ export default {
     },
     fetchArticleData(id){
       fetchArticlesGetOne({"id":id}).then(response=>{
-        if(response.data.status == "success"){
+        if(response.data.status == this.GLOBAL.SuccessText){
           this.postForm = response.data.data
         }else{
           console.log('get article error')
@@ -223,7 +221,7 @@ export default {
         if (valid) {
           if(this.isEdit){
             updateArticles(this.postForm).then((response) => {
-              if(response.data.status == "success"){
+              if(response.data.status == this.GLOBAL.SuccessText){
                 this.$notify({
                   title: '成功',
                   message: response.data.msg,
@@ -237,7 +235,7 @@ export default {
             })
           }else{
             createArticles(this.postForm).then((response) => {
-              if(response.data.status == "success"){
+              if(response.data.status == this.GLOBAL.SuccessText){
                 this.$notify({
                   title: '成功',
                   message: '创建成功',
