@@ -201,19 +201,117 @@ export const constantRoutes = [
         meta: { title: '创建公众号', icon: 'table' }
       },
       {
-        path: 'wxgzhedit/:id(\\d+)',
+        path: 'edit/:id(\\d+)',
         component: () => import('@/views/wxgzh/edit'),
         name: '修改公众号',
-        meta: { title: '修改公众号', noCache: true, activeMenu: '/wxgzh/list' },
+        meta: { title: '修改公众号',  activeMenu: '/wxgzh/list' },
         hidden: true
       },
       {
-        path: 'wxgzhpay/:id(\\d+)',
+        path: 'paysetting/:id(\\d+)',
         component: () => import('@/views/wxgzh/paysetting'),
         name: '公众号支付配置',
-        meta: { title: '公众号支付配置', noCache: true, activeMenu: '/wxgzh/list' },
+        meta: { title: '公众号支付配置', activeMenu: '/wxgzh/list' },
         hidden: true
+      },
+      {
+        path: 'noselectwx',
+        component: () => import('@/views/wxgzh/noselectwx'),
+        name: '选择要操作的公众号',
+        meta: { title: '选择要操作的公众号', activeMenu: '/wxgzh/list' },
+        hidden: true
+      },
+      {
+        path: 'basesetting',
+        component: () => import('@/views/wxgzh/basesetting'),
+        redirect: '/wxgzh/basesetting/welcome',
+        name: '公众号基本配置',
+        meta: { title: '公众号基本配置', icon: 'table'  },
+        children:[
+          {
+            path: 'welcome',
+            name: '欢迎语设置',
+            component: () => import('@/views/wxgzh/basesetting/welcome'),
+            meta: { title: '欢迎语设置', icon: 'table' }
+          },
+          {
+            path: 'diyreply',
+            name: '自定义回复',
+            component: () => import('@/views/wxgzh/basesetting/diyreply'),
+            meta: { title: '自定义回复', icon: 'table' }
+          },
+          {
+            path: 'unknowreply',
+            name: '未识别回复',
+            component: () => import('@/views/wxgzh/basesetting/unknowreply'),
+            meta: { title: '未识别回复', icon: 'table' }
+          },
+          {
+            path: 'material',
+            name: '素材管理',
+            component: () => import('@/views/wxgzh/basesetting/material/index'),
+            redirect: '/wxgzh/basesetting/material/text',
+            meta: { title: '素材管理', icon: 'table' },
+            children:[
+              {
+                path: 'text',
+                name: '文本素材',
+                component: () => import('@/views/wxgzh/basesetting/material/text'),
+                meta: { title: '文本素材', icon: 'table' }
+              },
+              {
+                path: 'picture',
+                name: '图片素材',
+                component: () => import('@/views/wxgzh/basesetting/material/picture'),
+                meta: { title: '图片素材', icon: 'table' }
+              },
+              {
+                path: 'picture_text',
+                name: '图文素材',
+                component: () => import('@/views/wxgzh/basesetting/material/picture_text'),
+                meta: { title: '图文素材', icon: 'table' }
+              },
+              {
+                path: 'voice',
+                name: '音频素材',
+                component: () => import('@/views/wxgzh/basesetting/material/voice'),
+                meta: { title: '音频素材', icon: 'table' }
+              },
+              {
+                path: 'video',
+                name: '视频素材',
+                component: () => import('@/views/wxgzh/basesetting/material/video'),
+                meta: { title: '视频素材', icon: 'table' }
+              },
+            ]
+          },
+          {
+            path: 'user',
+            name: '用户分组',
+            component: () => import('@/views/wxgzh/basesetting/user'),
+            meta: { title: '用户分组', icon: 'table' }
+          },
+          {
+            path: 'diymenu',
+            name: '自定义菜单',
+            component: () => import('@/views/wxgzh/basesetting/diymenu'),
+            meta: { title: '自定义菜单', icon: 'table' }
+          },
+          {
+            path: 'group_message',
+            name: '群发消息',
+            component: () => import('@/views/wxgzh/basesetting/group_message'),
+            meta: { title: '群发消息', icon: 'table' }
+          },
+          {
+            path: 'tpl_message',
+            name: '模版消息',
+            component: () => import('@/views/wxgzh/basesetting/tpl_message'),
+            meta: { title: '模版消息', icon: 'table' }
+          },
+        ]
       }
+
     ]
   },
 

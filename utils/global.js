@@ -10,6 +10,8 @@ const UploadAttachmentUrl =  "http://localhost:9528/dev-api/upload"
 const WxGzhType = [{value:1,label:'普通订阅号'},{value:2,label:'微信认证订阅号'},{value:3,label:'普通服务号'},{value:4,label:'微信认证服务号'}]
 //问下公众号加密方式
 const WxGzhEncodeType = [{value:1,label:'明文模式'},{value:2,label:'兼容模式'},{value:3,label:'安全模式（推荐）'}]
+//当前操作的微信公众号Token
+const WxCurrentIDToken = 'wx_current_id_token'
 
 /**
  * [successNotify 全局操作成功提示]
@@ -58,6 +60,7 @@ export default {
   ImageUploadTips,
   WxGzhType,
   WxGzhEncodeType,
+  WxCurrentIDToken,
   msgNotify,
   uploadImageCheck
 }

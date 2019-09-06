@@ -21,18 +21,16 @@
       <vxe-table-column field="created_time" title="创建时间"  width="150"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
-          <el-button type="primary">
-          <router-link :to="'/wxgzh/wxgzhedit/'+row.id" class="link-type">
+          <el-button type="primary" @click="wxBaseSetting(row)">
             <span>基础功能配置</span>
-          </router-link>
           </el-button>
           <el-button type="warning">
-          <router-link :to="'/wxgzh/wxgzhpay/'+row.id" class="link-type">
+          <router-link :to="'/wxgzh/paysetting/'+row.id" class="link-type">
             <span>支付配置</span>
           </router-link>
           </el-button>
           <el-button type="success">
-          <router-link :to="'/wxgzh/wxgzhedit/'+row.id" class="link-type">
+          <router-link :to="'/wxgzh/edit/'+row.id" class="link-type">
             <span>编辑</span>
           </router-link>
           </el-button>
@@ -48,6 +46,8 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
+
 import { fetchListWxgzh,deleteWxgzhSetting } from '@/api/weixin'  
 
 import Pagination from '@/components/Pagination' 
@@ -99,6 +99,10 @@ export default {
         }
       }
       return typeText
+    },
+    wxBaseSetting(row){
+      Cookies.set(this.GLOBAL.WxCurrentIDToken,row.id)
+      this.$router.push('/wxgzh/basesetting/welcome')
     },
     handleDelete(row) {
       this.$confirm('确定要删除该记录吗？', '确认信息', {
