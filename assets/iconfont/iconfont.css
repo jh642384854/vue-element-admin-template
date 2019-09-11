@@ -1,15 +1,15 @@
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1567504065109'); /* IE9 */
-  src: url('iconfont.eot?t=1567504065109#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAOcAAsAAAAAB2AAAANPAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcAqCbII7ATYCJAMICwYABCAFhG0HLxtgBsiuMQbXD0THcDK5FzQ8/zo7osvWrAL8KsTDv/uh9yUpAbkOEI8nkAgOyM0plBOywgyFmfuT/tVnD2JOdrlMdp19PNid8MnSnTy9UH6dHH1ra0uheRAHkkBbAgFAC7AEkHFvNMpPZlmvkDD/53qjWRZ+0LV2MO1Kmw8rnkfrpQpYmc9zOb0pfo0PlOPamyb1AowDCnAvjAIJuEAKjOOGsQta4nUCjUZFEuwtrmwEZgpzXiBuKeViYJYxKw21oV6ordhaxEdQn16l8SF4f/xT1JPUZGbDyStFMpD7E7EK8vOqhUeQTOcE20XGMqAQZyvdxxlG6WWGGtW0kUlgW7XBT6kqT7zZHx5B1DKrm8EwFF+TxJFe6jcTKKjFbcC7Qc9D7UrNozc+2g268tp04zXi/OJZ9qwnwVeVFepBKdUPNbbac7n5Ht0QBJ/6XhbsXx5Qm/qPrh6sHU4eN4+O9g6cluh1kEzkVukr1M5l9sWLZtnm6E/9qofn3c5bS/S2jCeP+4+CJxZ9h5ZRcOPIwqH/y50xenn7V4Isr9iiW9Glxo9DHeXK4MXr9643t1gW1BrltT/ATdqVXvrftcJe0HToX51yNH/ymWjKfYD8mOa/oqnLm7Q3n/GRxr7+YFf+8vsv4CcVAZWnrr0/swhuzIaW6hyTyzZ1//cW0XgJlthRnlI76z2e8U/sJJYX7O8nmO8GuQCq8+9c8y8+Y1vt+W0huhVxAWvTHoNgddHNS/0Ze4I3L+nYUzSZaUlFkVTmk9tM7qipUSMq2N/pw1B9z23mQ72em/XWGUmQ1ZsmC7uMGk1WUaveDjRaUrK7SReaoSgNWDQMENqdQ9LqK7J2T8nCvkeNXl9Qqz0yGp2PriObzMZ1iz00ErNIBiXtUCklOmzbWIuwth7JOY2YTssCrhnRjDIG46Jj87kSpEP0FCsYXh7PshhimmhhMbgNaTQE6mmiQlI2WsGy+vSYGFz1oGgp0QILe9AQMRYiA0m0g5SkCB3sDWZZFF5fD5HjaIjRDV1V0WYIjaEcHYoTLbYDWaLWdeq6lXsYPLl4LBYGYTRCCyoGTkRjpQlIXz1JBZFiRVMMSOqli0H9cFd19PJa7dsdgkamIYU1Jqt5QEibEgAA') format('woff2'),
-  url('iconfont.woff?t=1567504065109') format('woff'),
-  url('iconfont.ttf?t=1567504065109') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
-  url('iconfont.svg?t=1567504065109#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1568102260732'); /* IE9 */
+  src: url('iconfont.eot?t=1568102260732#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAUwAAsAAAAACcwAAATiAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCDHAqHFIV3ATYCJAMQCwoABCAFhG0HPBtdCMgekqSfAgq6HQUcAFh7xMPXWvl+Tw8coUJWZLn8qWNFVP7cushEusRHo4tiI/bn+dt7bvi4L/uLfPU5szXotbkGIczG0preFchVuBSQx2Qf8kApoHYTcpqN2R/3Tn/rPLD5LMtx7XUedQFGY2tAYw3r4glawBxTi+yOQC16N4FOE0Khw/yrJxaQGYMC8dJZFVggJZdr8KERVSUzM8QHKDVpPO0MgPf+9+M/RIcXSMoCjJFHd8cyG//iPNtIp/5TLl0EGMNpwc2jwBqQiYdS/RV36F9D16lEe2wDjalNDNWgfLbx/3/K3Aq/oX95hEIiKjD43QS3GSj4xbGpBL+U9DLBRiyXKCb3b9BHbADEK8KNaSoFfrV1b5YGYx3PS2PQi7DX4JV+W68m7byqFl+7UnmFXOG/LX6W6EShyIoWa2fPkuy6ppmnQLOl13P2Xy9IIK2ubY45TrvbOM+1yiGaIZ7rF3fttyt5lmjFEf9r14ybmqx8nbxKzt0g25A6Q7xQ3cHutrr8bQ7KSYTWeS48o+s7DMa2wFq06FI8Z8sFFWPhxTju9staRDoJYvV+JXPevgE2F2Ja3QTX7oTccmATNqJgZCIGX7lSS8MrHDKYC9sUvlwl2devm5jzrlVXf17DrdgrF8qAGmDtrXLGgj2xrG37NIhtdyNkdUlY9MX764dq14rdCi2HzR+tJBZlXYUx4q6CrLOwzVfibkWQhImAzrAqcS024oWg84SwO6kdGIc8aP7zXFjelzHCfLPGL00Vmbc7vJA5JFDYsXNy+oWDM2dNmV5UfOeh33zpJ2s7pFv4/2F6GUZE0feh7Vuu1Wf2CsjMD85JX8s7Lk349dNNcNKth/wxxrz3E1lVfzceVXsOLYmVrpUO/9S5Va7fOE4n083Ioz3H88eDR47S5TN0BbzeyrY8do4y+gyvDdGGfyDGOxv66YBKoTeSaS+SakWRXuCvE2CsjSpUS2IwwjEJm1py+Bywha3wKf8nYPhw/v/T4sU6kMxS2chUx7OFFnj2j1sMWCw82/Q25Tctbl3Z6wew4/Mi5wpzEzQp5bo4Ox7AM/ItD14TEJ/hJuxGFhuvPf8Nv/0HmxDtfuqQzxYZClb6yn6nN+JGmThL11LKE/CEWVzWX7Y0bF1VN66PmoQiJ+k3SLryOCh2rhDfCfG5nUVX14doX8aydYJciXh+Hk8WZYgUQy8M7Xf0F3QmIEs/AdpUcZNO/X+9/DHLd7Xkpn71Ip5/3o+FA8y+tU1lgAn8RAww429jADOyyjIUOctsm645snfwOw1L6NSJNjIPujeEcASsJahwJIakNg6Fxhwq49ag1GUTKo0d6LSqYH6XIX24RfYGVoxGEPqth6TXRyj0O4vKuLtQGvUWKv1Bh07HIVyxy0J0xjl9UFijDG0GQue25CiWah0KUh9Q3VjCMsnyCS+4XOkuiAqPzIZO0cHlEGP6WtSq2axAhz5kQz7aDy2LoFcfMlBaFzuZ1/NuRESHshsV2/a0WciBJSRYQzLQxgHoTEIcipt7LZT7/AOk2rAIljVpFdoXaGlFbx5ECRcJQJ3yHVDapbTva0tVZbam0H4dLBEbyMdaZJl+AnqVdzMgyVpRpw7eua4Ikq0DlF+cXmjf4TLoZFySg4boiIGYUL71pL3utXSWkVxllYwBAAA=') format('woff2'),
+  url('iconfont.woff?t=1568102260732') format('woff'),
+  url('iconfont.ttf?t=1568102260732') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
+  url('iconfont.svg?t=1568102260732#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
   font-family: "iconfont" !important;
-  font-size: 16px;
+  font-size: 20px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -17,5 +17,13 @@
 
 .icon-yooxi:before {
   content: "\e60e";
+}
+
+.icon-video:before {
+  content: "\e6b1";
+}
+
+.icon-MP:before {
+  content: "\e61b";
 }
 

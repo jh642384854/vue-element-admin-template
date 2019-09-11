@@ -1,0 +1,70 @@
+图片资源数据结构如下：
+{
+    "total_count": 2,
+    "item_count": 2,
+    "item": [
+        {
+            "media_id": "8tm_L653x9N30xEwyRpqDgS5SNShc7XvlJSWBo3fl_Q",
+            "name": "flower.jpg",
+            "update_time": 1567997028,
+            "url": "http://mmbiz.qpic.cn/mmbiz_jpg/icDxLpGLcRslbo3raQGrDgYhumYer8mBXYYGTCcibJOtaLhLegwMCfogoNCT1rficOZUNwYYUiacs9AyMOW9cXFSow/0?wx_fmt=jpeg"
+        },
+        {
+            "media_id": "8tm_L653x9N30xEwyRpqDgZwsHa0pJR0iz6eQ18eKPU",
+            "name": "timg.jpg",
+            "update_time": 1567655643,
+            "url": "http://mmbiz.qpic.cn/mmbiz_jpg/icDxLpGLcRskldlhJh2rCdsRibvmBkx412yg9oTjW2nBwFTUVwfKovdkBv3Uf3esro0DnE3kKiaUBEyN57icJF80Rg/0?wx_fmt=jpeg"
+        }
+    ]
+}
+音频资源返回如下：
+{
+    "total_count": 1,
+    "item_count": 1,
+    "item": [
+        {
+            "media_id": "8tm_L653x9N30xEwyRpqDi31kEfBEZLBDqZC8KHJ8Ac",
+            "name": "Dream It Possible",
+            "update_time": 1567996378,
+            "url": ""
+        }
+    ]
+}
+视频资源返回如下：
+{
+    "total_count": 1,
+    "item_count": 1,
+    "item": [
+        {
+            "media_id": "8tm_L653x9N30xEwyRpqDiMgcKsPb3i0xPsjsKY5ihY",
+            "name": "Dream It Possible",
+            "update_time": 1567996913,
+            "url": ""
+        }
+    ]
+}
+图文资源返回如下：
+{
+    "total_count": 1,
+    "item_count": 1,
+    "item": [
+        {
+            "media_id": "8tm_L653x9N30xEwyRpqDsAHMH7JziR-S-OrEsgEyds",
+            "update_time": 1567997097,
+            "content": {
+                "news_item": [
+                    {
+                        "thumb_media_id": "Vo1Gy1Gly2JcrWbDqkpgm9fNK0WoGvZb03g8GuTz8Qk",
+                        "title": "鲜花保养",
+                        "author": "瑞雪",
+                        "digest": "如何做好鲜花保养的工作",
+                        "content": "<p>如何做好鲜花保养的工作</p><p style=\"text-align: center;\"><img class=\"rich_pages\" data-ratio=\"0.67578125\" data-s=\"300,640\" data-src=\"https://mmbiz.qpic.cn/mmbiz_jpg/icDxLpGLcRslbo3raQGrDgYhumYer8mBXYYGTCcibJOtaLhLegwMCfogoNCT1rficOZUNwYYUiacs9AyMOW9cXFSow/640?wx_fmt=jpeg\" data-type=\"jpeg\" data-w=\"1024\" style=\"\"  /></p><p><br  /></p>",
+                        "show_cover_pic": 0,
+                        "url": "http://mp.weixin.qq.com/s?__biz=MzI1MTExODA1Ng==&mid=100000007&idx=1&sn=c61c2c6ba338d48eb1de56ea0a367dd5&chksm=69f6a9805e812096f17b0129d5764741f1d533b85a457b5f8c2b1aca0d1c1f33fc3acf074b1d#rd"
+                    }
+                ]
+            }
+        }
+    ]
+}
+

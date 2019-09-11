@@ -237,8 +237,30 @@ export const constantRoutes = [
           {
             path: 'diyreply',
             name: '自定义回复',
-            component: () => import('@/views/wxgzh/basesetting/diyreply'),
-            meta: { title: '自定义回复', icon: 'table' }
+            redirect: '/wxgzh/basesetting/diyreply/list',
+            component: () => import('@/views/wxgzh/basesetting/diyreplymsg/index'),
+            meta: { title: '自定义回复', icon: 'table' },
+            children:[
+              {
+                path: 'list',
+                name: '自定义回复列表',
+                component: () => import('@/views/wxgzh/basesetting/diyreplymsg/list'),
+                meta: { title: '自定义回复列表', icon: 'table' }
+              },
+              {
+                path: 'create',
+                name: '创建自定义回复',
+                component: () => import('@/views/wxgzh/basesetting/diyreplymsg/create'),
+                meta: { title: '创建自定义回复', icon: 'table' }
+              },
+              {
+                path: 'edit/:id(\\d+)',
+                name: '修改自定义回复',
+                component: () => import('@/views/wxgzh/basesetting/diyreplymsg/edit'),
+                meta: { title: '修改自定义回复', icon: 'table' },
+                hidden: true
+              },
+            ]
           },
           {
             path: 'unknowreply',

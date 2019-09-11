@@ -12,13 +12,19 @@
         <el-menu-item index="1">
           <router-link to="/wxgzh/basesetting/welcome">欢迎语设置</router-link>
         </el-menu-item>
-        <el-menu-item index="2">
-          <router-link to="/wxgzh/basesetting/diyreply">自定义回复</router-link>
-        </el-menu-item>
+        <el-submenu index="2">
+          <template slot="title">自定义回复</template>
+          <el-menu-item index="2-1">
+            <router-link to="/wxgzh/basesetting/diyreply/list">自定义回复</router-link>
+          </el-menu-item>
+          <el-menu-item index="2-2">
+            <router-link to="/wxgzh/basesetting/diyreply/create">创建自定义回复</router-link>
+          </el-menu-item>
+        </el-submenu>
         <el-menu-item index="3">
           <router-link to="/wxgzh/basesetting/unknowreply">未识别回复</router-link>
         </el-menu-item>
-         <el-submenu index="4">
+        <el-submenu index="4">
           <template slot="title">素材管理</template>
           <el-menu-item index="4-1">
             <router-link to="/wxgzh/basesetting/material/text">文本素材</router-link>
@@ -60,6 +66,8 @@ import { fetchListWxgzh } from '@/api/weixin'
 
 //主要导航
 const menulink = ['welcome','diyreply','unknowreply','material','user','diymenu','group_message','tpl_message'];
+//自动回复子导航
+const diyreplyMaterial = ['list','create','edit']
 //素材管理子导航
 const material = ['text','picture','picture_text','voice','video']
 let _this
@@ -94,7 +102,9 @@ export default {
         }
         const path = this.$route.path
         const curMenuLink = path.substring(path.lastIndexOf("/")+1)
-        if(XEUtils.includes(material,curMenuLink)){
+        if(XEUtils.includes(diyreplyMaterial,curMenuLink)){
+          this.activeIndex = '2-'+(XEUtils.arrayIndexOf(diyreplyMaterial,curMenuLink)+1)
+        }else if(XEUtils.includes(material,curMenuLink)){
           this.activeIndex = '4-'+(XEUtils.arrayIndexOf(material,curMenuLink)+1)
         }else{
           this.activeIndex = (XEUtils.arrayIndexOf(menulink,curMenuLink)+1).toString()

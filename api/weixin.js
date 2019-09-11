@@ -108,3 +108,77 @@ export function getWelcomeMsg(params){
     params
   })
 }
+
+/**
+ * [saveWelcomeMsg 配置关注后的欢迎语]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
+export function setUnknowMsg(data){
+  return request({
+    url:"wx/configUnknowMsg",
+    method:"post",
+    data
+  })
+}
+/**
+ * [saveWelcomeMsg 获取关注后的欢迎语配置信息]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
+export function getUnknowMsg(params){
+  return request({
+    url:"wx/configUnknowMsg",
+    method:"get",
+    params
+  })
+}
+/**
+ * [getDiyreplyMsg 获取关键字回复列表]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
+export function getlistDiyreplyMsg(params){
+  return request({
+    url:"wx/listdiyreply",
+    method:"get",
+    params
+  })
+}
+
+/**
+ * [deleteAdvs 删除关键字自定义回复，可以单个删除，也可以批量删除]
+ * @param  {[type]} id [description]
+ * @return {[type]}    [description]
+ */
+export function deleteDiyreplyMsg(data){
+  return request({
+    url: 'wx/deletediyreply',
+    method: 'post',
+    data
+  })
+}
+/**
+ * [saveDiyreplyMsg 创建或保存关键字自定义回复]
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
+ */
+export function saveDiyreplyMsg(data){
+  return request({
+    url: 'wx/savediyreply',
+    method: 'post',
+    data
+  })
+}
+/**
+ * [getDiyreplyMsg 获取单个关键字自定义回复内容]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
+export function getoneDiyreplyMsg(params){
+  return request({
+    url:"wx/getonediyreply",
+    method:"get",
+    params
+  })
+}
