@@ -54,7 +54,42 @@ export function updateAdminUser(data) {
  */
 export function fetchAllRoels(){
   return request({
-    url: '/roles/list',
+    url: 'roles/list',
     method: 'get'
+  })
+}
+
+/**
+ * [login 后台用户登录]
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
+ */
+export function login(data) {
+  return request({
+    url: 'adminuser/login',
+    method: 'post',
+    data
+  })
+}
+/**
+ * [getInfo 获取后台用户信息]
+ * @param  {[type]} token [description]
+ * @return {[type]}       [description]
+ */
+export function getInfo(token) {
+  return request({
+    url: 'adminuser/info',
+    method: 'get',
+    params: { token }
+  })
+}
+/**
+ * [logout 后台用户退出操作]
+ * @return {[type]} [description]
+ */
+export function logout() {
+  return request({
+    url: 'adminuser/logout',
+    method: 'post'
   })
 }

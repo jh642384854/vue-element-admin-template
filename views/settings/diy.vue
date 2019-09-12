@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-alert title="注意：变量名以英文字母数字下划线命名,且只能以英文字母开头" type="success" :closable="false" style="margin-bottom: 10px;"></el-alert>
     <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px">
-      <el-row :gutter="20" v-for="(item, index) in dynamicValidateForm.customVariables" :key="domain.key">
+      <el-row :gutter="20" v-for="(item, index) in dynamicValidateForm.customVariables" :key="item.key">
         <el-col :span="4">
           <el-form-item :label="'变量名' + (index+1)" :prop="'customVariables.' + index + '.name'" :rules="{ required: true, minlength:1, maxlength:20, pattern:'^[a-zA-Z][a-zA-Z0-9_]*$', message: '变量名不能为空或不合法', trigger: 'blur'}">
             <el-input v-model="item.name" width="150"></el-input>

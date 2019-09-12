@@ -62,5 +62,5 @@ export default {
   WxGzhEncodeType,
   WxCurrentIDToken,
   msgNotify,
-  uploadImageCheck
+  uploadImageCheck,
 }

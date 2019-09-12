@@ -1,6 +1,7 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo } from '@/api/adminuser'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+
 
 const state = {
   token: getToken(),
@@ -26,10 +27,14 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
+        if(response.data.status == "success"){
+          const data  = response.data.results
+          commit('SET_TOKEN', data.token)
+          setToken(data.token)
+          resolve()
+        }else{
+          reject(response.data.msg)
+        }
       }).catch(error => {
         reject(error)
       })
@@ -40,17 +45,18 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          reject('Verification failed, please Login again.')
+        if(response.data.status == "success"){
+          const data  = response.data.results
+          if (!data) {
+            reject('用户名密码验证失败，请重试')
+          }
+          const { name, avatar } = data
+          commit('SET_NAME', name)
+          commit('SET_AVATAR', avatar)
+          resolve(data)
+        }else{
+          reject(response.data.msg)
         }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
       }).catch(error => {
         reject(error)
       })

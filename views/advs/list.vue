@@ -359,7 +359,6 @@ export default {
   }
 }
 </script>
-<!--  type="scoped" -->
-<style>
+<style scoped>
 .dialogImg{ max-width: 75%; }
 </style>
