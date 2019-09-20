@@ -368,7 +368,47 @@ export const constantRoutes = [
         path: 'list',
         name: '会员列表',
         component: () => import('@/views/users/list'),
-        meta: { title: '会员列表', icon: 'table' }
+        meta: { title: '会员列表', icon: 'table' },
+      },
+      {
+        path: 'usermanage/:id(\\d+)',
+        name: '用户管理',
+        component: () => import('@/views/users/manage/index'),
+        redirect: 'usermanage/:id(\\d+)/order',
+        meta: { title: '用户管理', icon: 'table', activeMenu: '/user/list' },
+        hidden: true,
+        children: [
+          {
+            path: 'order',
+            name: '订单',
+            component: () => import('@/views/users/manage/order'),
+            meta: { title: '用户订单', icon: 'table', activeMenu: '/user/list' },
+          },
+          {
+            path: 'coupon',
+            name: '优惠券',
+            component: () => import('@/views/users/manage/coupon'),
+            meta: { title: '优惠券', icon: 'tree', activeMenu: '/user/list' },
+          },
+          {
+            path: 'point',
+            name: '积分',
+            component: () => import('@/views/users/manage/coupon'),
+            meta: { title: '积分', icon: 'tree', activeMenu: '/user/list' },
+          },
+          {
+            path: 'bind',
+            name: '绑定记录',
+            component: () => import('@/views/users/manage/bind'),
+            meta: { title: '绑定记录', icon: 'tree', activeMenu: '/user/list' },
+          }
+        ]
+      },
+      {
+        path: 'blacklist',
+        name: '黑名单',
+        component: () => import('@/views/users/blacklist'),
+        meta: { title: '黑名单', icon: 'table' }
       },
       {
         path: 'create',
@@ -379,7 +419,7 @@ export const constantRoutes = [
       {
         path: 'edit/:id(\\d+)',
         name: '修改会员',
-        component: () => import('@/views/users/create'),
+        component: () => import('@/views/users/edit'),
         meta: { title: '修改会员', icon: 'table' , activeMenu: '/user/list'},
         hidden: true
       },

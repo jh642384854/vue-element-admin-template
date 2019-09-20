@@ -1,61 +1,5 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>用户搜索</span>
-          <el-button style="float: right; padding: 3px 0"  type="text" icon="el-icon-edit" @click="handleCreate()">创建</el-button>
-        </div>
-        <div class="searchForm">
-          <el-row :gutter="20" class="mb10">
-            <el-col :span="4">
-              用户名：<el-input v-model="listQuery.username" style="width: 70%" placeholder="请输入内容"></el-input>
-            </el-col>
-            <el-col :span="5">
-              用户状态：
-              <el-select v-model="listQuery.status" placeholder="请选择">
-                <el-option v-for="item in userStatus" :key="item.label" :label="item.value" :value="item.label"></el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="5">
-              用户分组：
-              <el-select v-model="listQuery.gid" placeholder="请选择">
-                <el-option v-for="item in userGroups" :key="item.label" :label="item.value" :value="item.label"></el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="5">
-              用户性别：
-              <el-select v-model="listQuery.sex" placeholder="请选择">
-                <el-option v-for="item in userSex" :key="item.label" :label="item.value" :value="item.label"></el-option>
-              </el-select>
-            </el-col>
-            <el-col :span="5">
-              用户来源：
-              <el-select v-model="listQuery.fromid" placeholder="请选择">
-                <el-option v-for="item in userFrom" :key="item.label" :label="item.value" :value="item.label"></el-option>
-              </el-select>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="20">
-              创建时间：<el-date-picker
-                v-model="listQuery.dateRange"
-                type="daterange"
-                align="right"
-                unlink-panels
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="timestamp"
-                :picker-options="pickerOptions">
-              </el-date-picker>
-              <el-button type="primary" icon="el-icon-search" @click="searchUser" style="margin-top: 3px;">搜索</el-button>
-            </el-col>
-          </el-row>
-        </div>
-      </el-card>
-    </div>
-    
     <vxe-table ref="xTable" :size="GLOBAL.VxeTableSize" :data.sync="tableData" :loading="listLoading">
       <vxe-table-column type="index" width="60"></vxe-table-column>
       <vxe-table-column field="username" title="用户名" width="150"></vxe-table-column>
@@ -70,32 +14,29 @@
           {{ scope.row.sex | sexFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="groupid" title="分组" width="120">
+      <vxe-table-column field="groupid" title="分组">
         <template slot-scope="scope">
           {{ scope.row.groupid | userGroupFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="points" title="积分" width="120"></vxe-table-column>
-      <vxe-table-column field="from" title="来源" width="120">
+      <vxe-table-column field="points" title="积分"></vxe-table-column>
+      <vxe-table-column field="from" title="来源">
         <template slot-scope="scope">
           {{ scope.row.from | fromFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="status" title="状态" width="120">
+      <vxe-table-column field="status" title="状态" >
         <template slot-scope="scope">
           {{ scope.row.status | statusFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="created_time" title="创建时间" width="200"></vxe-table-column>
+      <vxe-table-column field="created_time" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
-          <el-button type="success">
+          <el-button size="mini" type="success">
             <span @click="handleEdit(row.id, row)">编辑</span>
           </el-button>
-          <el-button type="primary">
-            <span @click="handleManage(row.id, row)">会员管理</span>
-          </el-button>
-          <el-button type="danger" @click="handleDelete(row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(row)">删除</el-button>
         </template>
       </vxe-table-column>
     </vxe-table>
@@ -242,9 +183,6 @@ export default {
     },
     handleEdit(index, row) {
       this.$router.push({ path: '/user/edit/'+row.id})
-    },
-    handleManage(index, row) {
-      this.$router.push({ path: '/user/usermanage/'+row.id})
     },
     handleDelete(row){
       this.$confirm('确定要删除该记录吗？', '确认信息', {
