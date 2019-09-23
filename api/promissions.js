@@ -12,6 +12,18 @@ export function fetchPromissionsList(params){
   })
 }
 /**
+ * [fetchList 获取权限列表，树形结构]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
+export function fetchPromissionsTreeList(params){
+  return request({
+    url:"promissions/treelist",
+    method:"get",
+    params
+  })
+}
+/**
  * [deletePromissions 删除权限]
  * @param  {[type]} id [description]
  * @return {[type]}    [description]

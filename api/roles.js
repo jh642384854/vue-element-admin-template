@@ -47,3 +47,27 @@ export function updateRoles(data) {
     data
   })
 }
+/**
+ * [updateRoles 保存角色权限信息]
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
+ */
+export function saveRolePermission(data) {
+  return request({
+    url: 'roles/savepermission',
+    method: 'post',
+    data
+  })
+}
+/**
+ * [fetchList 获取角色列表]
+ * @param  {[type]} params [description]
+ * @return {[type]}        [description]
+ */
+export function fetchRolePermissions(params){
+  return request({
+    url:"roles/getpermissions",
+    method:"get",
+    params
+  })
+}

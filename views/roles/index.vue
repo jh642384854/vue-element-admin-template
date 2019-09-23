@@ -18,19 +18,16 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.row.id, scope.row)">编辑</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.row)">删除</el-button>
+          <el-button @click="handleEdit(scope.row.id, scope.row)">编辑</el-button>
+          <el-button type="danger" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button type="primary" @click="assignPermissions(scope.row)">权限分配</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <pagination v-show="total>0" :total="total"  @pagination="getList" />
-
+    
+    <!-- 添加角色 -->
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="70px">
         <el-form-item label="名称" prop="role_name">
@@ -52,11 +49,37 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <!-- 为角色分配权限 -->
+    <el-dialog title="权限分配" :visible.sync="dialogPermissionsFormVisible">
+      <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="70px">
+        <el-tree
+          :data="allPermissions"
+          show-checkbox
+          default-expand-all
+          node-key="id"
+          ref="permissions"
+          highlight-current
+          :default-checked-keys="checkedPermissions"
+          :props="defaultProps">
+        </el-tree>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogPermissionsFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="savePermissions">
+          保存
+        </el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-import { fetchRolesList,deleteRoles,createRoles,updateRoles } from '@/api/roles'
+import { fetchPromissionsTreeList } from '@/api/promissions'  
+import { fetchRolesList,deleteRoles,createRoles,updateRoles,saveRolePermission,fetchRolePermissions } from '@/api/roles'
 import waves from '@/directive/waves'
 import Pagination from '@/components/Pagination' 
 
@@ -78,6 +101,14 @@ export default {
       total: 0,
       listLoading: true,
       dialogFormVisible: false,
+      dialogPermissionsFormVisible: false,
+      selectRoleid:'',
+      allPermissions:[],
+      checkedPermissions:[12, 14, 21, 24, 28, 3],
+      defaultProps: {
+        children: 'children',
+        label: 'name'
+      },
       dialogStatus: '',
       textMap: {
         update: '修改',
@@ -120,6 +151,35 @@ export default {
         remark: '',
         listorder: ''
       }
+    },
+    assignPermissions(row){
+      this.selectRoleid = row.role_id
+      this.dialogPermissionsFormVisible = true
+      let params = {
+        role_id : this.selectRoleid
+      }
+      fetchRolePermissions(params).then(response => {
+        this.checkedPermissions = response.data.items
+      })
+      fetchPromissionsTreeList().then(response => {
+        this.allPermissions = response.data.items
+      })
+    },
+    savePermissions(row){
+      //this.$refs.permissions.getCheckedNodes() //这个获取的是一组对象
+      let data = {
+        role_id:this.selectRoleid,
+        permissions:this.$refs.permissions.getCheckedKeys() //这个方法单纯的只是获取权限ID
+      }
+      saveRolePermission(data).then((response) => {
+        if(response.data.status == this.GLOBAL.SuccessText){
+          this.dialogPermissionsFormVisible = false
+          this.checkedPermissions = []
+          this.GLOBAL.msgNotify('success','成功',response.data.msg)
+        }else{
+          this.GLOBAL.msgNotify('error','失败',response.data.msg)
+        }
+      })
     },
     handleCreate() {
       this.resetTemp()

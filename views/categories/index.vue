@@ -240,7 +240,7 @@ export default {
                     for (const v of rowNode.items) {
                       if(v.id == this.ruleForm.pid){
                         const index = rowNode.items.indexOf(v)
-                        if(typeof(rowNode.items[index].children == "undefined")){
+                        if(typeof(rowNode.items[index].children) == "undefined"){
                           rowNode.items[index].children = []
                         }
                         rowNode.items[index].children.unshift(this.ruleForm)
@@ -275,7 +275,6 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.ruleForm)
           //delete tempData.children  //删除children元素，服务端不需要接收该参数
-          console.log(tempData)
           updateCategories(tempData).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
               let rowNode = XEUtils.findTree(this.list, item => item.id === this.ruleForm.id, this.treeConfig)

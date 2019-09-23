@@ -70,7 +70,10 @@
             <el-radio v-for="status in adminUserStatus" :label="status.key" :key="status.key">{{status.display_name}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="修改" v-if="textMap[dialogStatus] == '修改'">
+        <el-form-item label="密码" prop="password" v-if="textMap[dialogStatus] == '创建'">
+          <el-input  type="password" v-model="ruleForm.password" />
+        </el-form-item>
+        <el-form-item label="密码" v-if="textMap[dialogStatus] == '修改'">
           <el-radio-group v-model.number="modifyPass">
             <el-radio-button label=0>不修改</el-radio-button>
             <el-radio-button label=1>修改</el-radio-button>
