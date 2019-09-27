@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchList 获取链接列表]
  * @param  {[type]} params [description]
@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export function fetchListLinks(params){
   return request({
-    url:"links/list",
+    url: "admin/links/list",
     method:"get",
     params
   })
@@ -18,8 +18,8 @@ export function fetchListLinks(params){
  */
 export function deleteLinks(data){
   return request({
-    url: 'links/delete',
-    method: 'post',
+    url: "admin/links/delete",
+    method: "post",
     data
   })
 }
@@ -30,8 +30,8 @@ export function deleteLinks(data){
  */
 export function createLinks(data) {
   return request({
-    url: 'links/create',
-    method: 'post',
+    url: "admin/links/create",
+    method: "post",
     data
   })
 }
@@ -42,8 +42,8 @@ export function createLinks(data) {
  */
 export function updateLinks(data) {
   return request({
-    url: 'links/update',
-    method: 'post',
+    url: "admin/links/update",
+    method: "post",
     data
   })
 }

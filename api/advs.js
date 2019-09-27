@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchAdvcategories 获取广告类别列表]
  * @param  {[type]} params [description]
@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export function fetchAdvcategories(params){
   return request({
-    url:"advs/categories",
+    url: "admin/advs/categories",
     method:"get",
     params
   })
@@ -18,7 +18,7 @@ export function fetchAdvcategories(params){
  */
 export function fetchAdvcateTypes(params){
   return request({
-    url:"advs/catetypes",
+    url: "admin/advs/catetypes",
     method:"get",
     params
   })
@@ -31,7 +31,7 @@ export function fetchAdvcateTypes(params){
  */
 export function fetchAdvCatesGetOne(params){
   return request({
-    url:"advs/getonecate",
+    url: "admin/advs/getonecate",
     method:"get",
     params
   })
@@ -44,8 +44,8 @@ export function fetchAdvCatesGetOne(params){
  */
 export function deleteAdvCates(id){
   return request({
-    url: 'advs/deletecate',
-    method: 'get',
+    url: "admin/advs/deletecate",
+    method: "get",
     params: { id }
   })
 }
@@ -56,8 +56,8 @@ export function deleteAdvCates(id){
  */
 export function createAdvCates(data) {
   return request({
-    url: 'advs/createcate',
-    method: 'post',
+    url: "admin/advs/createcate",
+    method: "post",
     data
   })
 }
@@ -68,8 +68,8 @@ export function createAdvCates(data) {
  */
 export function updateAdvCates(data) {
   return request({
-    url: 'advs/updatecate',
-    method: 'post',
+    url: "admin/advs/updatecate",
+    method: "post",
     data
   })
 }
@@ -81,7 +81,7 @@ export function updateAdvCates(data) {
  */
 export function fetchAdvs(params){
   return request({
-    url:"advs/list",
+    url: "admin/advs/list",
     method:"get",
     params
   })
@@ -93,7 +93,7 @@ export function fetchAdvs(params){
  */
 export function fetchAdvsGetOne(params){
   return request({
-    url:"advs/getone",
+    url: "admin/advs/getone",
     method:"get",
     params
   })
@@ -106,8 +106,8 @@ export function fetchAdvsGetOne(params){
  */
 export function deleteAdvs(data){
   return request({
-    url: 'advs/delete',
-    method: 'post',
+    url: "admin/advs/delete",
+    method: "post",
     data
   })
 }
@@ -118,8 +118,8 @@ export function deleteAdvs(data){
  */
 export function createAdvs(data) {
   return request({
-    url: 'advs/create',
-    method: 'post',
+    url: "admin/advs/create",
+    method: "post",
     data
   })
 }
@@ -130,8 +130,8 @@ export function createAdvs(data) {
  */
 export function updateAdvs(data) {
   return request({
-    url: 'advs/update',
-    method: 'post',
+    url: "admin/advs/update",
+    method: "post",
     data
   })
 }

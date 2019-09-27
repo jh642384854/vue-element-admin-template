@@ -22,7 +22,7 @@
       <vxe-table-column field="method" width="100" title="请求方式"></vxe-table-column>
       <vxe-table-column field="sort" width="50" title="排序" ></vxe-table-column>
       <vxe-table-column field="remark" width="200" title="备注" ></vxe-table-column>
-      <vxe-table-column field="created_time" width="150" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" width="150" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <el-button type="success" @click="handleCreate(row)">添加子节点</el-button>
@@ -128,7 +128,7 @@ export default {
         placeholder: '父级'
       },
       ruleForm: {
-        id:'',
+        id:0,
         pid:0,
         created_at:'',
         name:'',
@@ -162,7 +162,7 @@ export default {
     },
     resetTemp() {
       this.ruleForm = {
-        id:'',
+        id:0,
         pid:0,
         name:'',
         remark: '',
@@ -195,10 +195,13 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createPromissions(this.ruleForm).then((response) => {
+          const tempData = Object.assign({}, this.ruleForm)
+          delete tempData.id
+          delete tempData.children
+          createPromissions(tempData).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
               this.ruleForm.id = response.data.last_id
-              this.ruleForm.created_time = response.data.created_time
+              this.ruleForm.created_at = response.data.created_at
               //如果添加的是顶级栏目
               if(this.ruleForm.pid === 0){
                 this.list.unshift(this.ruleForm)
@@ -251,6 +254,7 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.ruleForm)
+          delete tempData.children
           updatePromissions(tempData).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
               let rowNode = XEUtils.findTree(this.list, item => item.id === this.ruleForm.id, this.treeConfig)

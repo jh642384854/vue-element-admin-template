@@ -18,7 +18,7 @@
       <vxe-table-column field="url" title="Url"  width="150" show-overflow></vxe-table-column>
       <vxe-table-column field="encodeType" title="消息加密方式" width="120" :formatter="formatterEncodeType"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
-      <vxe-table-column field="created_time" title="创建时间"  width="150"></vxe-table-column>
+      <vxe-table-column field="created_at" title="创建时间"  width="150"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <el-button type="primary" @click="wxBaseSetting(row)">

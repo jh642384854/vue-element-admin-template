@@ -29,7 +29,7 @@
       <vxe-table-column field="coupon_id" title="优惠券" width="120"></vxe-table-column>
       <vxe-table-column field="pay_method" title="支付方式" show-overflow></vxe-table-column>
       <vxe-table-column field="status" title="状态" show-overflow></vxe-table-column>
-      <vxe-table-column field="created_time" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <el-button size="mini" type="success">
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { fetchListOrders,deleteOrders } from '@/api/user_order'
+import { fetchsorts,deleteOrders } from '@/api/user_order'
 import Pagination from '@/components/Pagination'  
 
 const orderStatusData = [{id:1,name:"待付款"},{id:2,name:"待发货"},{id:3,name:"已发货"},{id:4,name:"已收货"},{id:5,name:"已完成"},{id:6,name:"已关闭"},{id:7,name:"已退款"}]
@@ -104,7 +104,7 @@ export default {
     },
     getList(){
       this.listLoading = true
-      fetchListOrders(this.listQuery).then(response => {
+      fetchsorts(this.listQuery).then(response => {
         this.tableData = response.data.items
         this.total = response.data.total
         this.listLoading = false

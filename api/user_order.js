@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchListOrders 获取订单列表]
  * @param  {[type]} params [description]
@@ -6,8 +6,8 @@ import request from '@/utils/request'
  */
 export function fetchListOrders(params){
   return request({
-    url:"user/orders/list",
-    method:"get",
+    url: "admin/user/orders/list",
+    method: "get",
     params
   })
 }
@@ -19,8 +19,8 @@ export function fetchListOrders(params){
  */
 export function deleteOrders(data){
   return request({
-    url: 'user/orders/delete',
-    method: 'post',
+    url: "admin/user/orders/delete",
+    method: "post",
     data
   })
 }

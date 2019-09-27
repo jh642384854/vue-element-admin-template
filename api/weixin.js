@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 
 /**
  * [fetchListWxgzh 公众号列表]
@@ -7,8 +7,8 @@ import request from '@/utils/request'
  */
 export function fetchListWxgzh(params){
   return request({
-    url:"wx/list",
-    method:"get",
+    url: "admin/wx/list",
+    method: "get",
     params
   })
 }
@@ -19,8 +19,8 @@ export function fetchListWxgzh(params){
  */
 export function createWxgzhSetting(data) {
   return request({
-    url: 'wx/creategzh',
-    method: 'post',
+    url: "admin/wx/creategzh",
+    method: "post",
     data
   })
 }
@@ -32,8 +32,8 @@ export function createWxgzhSetting(data) {
  */
 export function updateWxgzhSetting(data) {
   return request({
-    url: 'wx/updategzh',
-    method: 'post',
+    url: "admin/wx/updategzh",
+    method: "post",
     data
   })
 }
@@ -44,8 +44,8 @@ export function updateWxgzhSetting(data) {
  */
 export function deleteWxgzhSetting(data){
   return request({
-    url: 'wx/deletegzh',
-    method: 'post',
+    url: "admin/wx/deletegzh",
+    method: "post",
     data
   })
 }
@@ -56,8 +56,8 @@ export function deleteWxgzhSetting(data){
  */
 export function getOneWxgzhSetting(params){
   return request({
-    url:"wx/getonegzh",
-    method:"get",
+    url: "admin/wx/getonegzh",
+    method: "get",
     params
   })
 }
@@ -74,8 +74,8 @@ export function getOneWxgzhSetting(params){
  */
 export function getMaterials(params){
   return request({
-    url:"wx/getmaterial",
-    method:"get",
+    url: "admin/wx/getmaterial",
+    method: "get",
     params
   })
 }
@@ -91,8 +91,8 @@ export function getMaterials(params){
  */
 export function setWelcomeMsg(data){
   return request({
-    url:"wx/configWelcomeMsg",
-    method:"post",
+    url: "admin/wx/configWelcomeMsg",
+    method: "post",
     data
   })
 }
@@ -103,8 +103,8 @@ export function setWelcomeMsg(data){
  */
 export function getWelcomeMsg(params){
   return request({
-    url:"wx/configWelcomeMsg",
-    method:"get",
+    url: "admin/wx/configWelcomeMsg",
+    method: "get",
     params
   })
 }
@@ -116,8 +116,8 @@ export function getWelcomeMsg(params){
  */
 export function setUnknowMsg(data){
   return request({
-    url:"wx/configUnknowMsg",
-    method:"post",
+    url: "admin/wx/configUnknowMsg",
+    method: "post",
     data
   })
 }
@@ -128,8 +128,8 @@ export function setUnknowMsg(data){
  */
 export function getUnknowMsg(params){
   return request({
-    url:"wx/configUnknowMsg",
-    method:"get",
+    url: "admin/wx/configUnknowMsg",
+    method: "get",
     params
   })
 }
@@ -140,8 +140,8 @@ export function getUnknowMsg(params){
  */
 export function getlistDiyreplyMsg(params){
   return request({
-    url:"wx/listdiyreply",
-    method:"get",
+    url: "admin/wx/listdiyreply",
+    method: "get",
     params
   })
 }
@@ -153,8 +153,8 @@ export function getlistDiyreplyMsg(params){
  */
 export function deleteDiyreplyMsg(data){
   return request({
-    url: 'wx/deletediyreply',
-    method: 'post',
+    url: "admin/wx/deletediyreply",
+    method: "post",
     data
   })
 }
@@ -165,8 +165,8 @@ export function deleteDiyreplyMsg(data){
  */
 export function saveDiyreplyMsg(data){
   return request({
-    url: 'wx/savediyreply',
-    method: 'post',
+    url: "admin/wx/savediyreply",
+    method: "post",
     data
   })
 }
@@ -177,8 +177,8 @@ export function saveDiyreplyMsg(data){
  */
 export function getoneDiyreplyMsg(params){
   return request({
-    url:"wx/getonediyreply",
-    method:"get",
+    url: "admin/wx/getonediyreply",
+    method: "get",
     params
   })
 }

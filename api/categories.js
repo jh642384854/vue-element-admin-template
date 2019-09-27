@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchList 获取栏目列表]
  * @param  {[type]} params [description]
@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export function fetchList(params){
   return request({
-    url:"categories/list",
+    url: "admin/categories/list",
     method:"get",
     params
   })
@@ -18,7 +18,7 @@ export function fetchList(params){
  */
 export function fetchListSingle(params){
   return request({
-    url:"categories/singlelist",
+    url: "admin/categories/singlelist",
     method:"get",
     params
   })
@@ -30,7 +30,7 @@ export function fetchListSingle(params){
  */
 export function fetchList2(params){
   return request({
-    url:"categories/list2",
+    url: "admin/categories/list2",
     method:"get",
     params
   })
@@ -42,8 +42,8 @@ export function fetchList2(params){
  */
 export function deleteCategories(id){
   return request({
-    url: 'categories/delete',
-    method: 'get',
+    url: "admin/categories/delete",
+    method: "get",
     params: { id }
   })
 }
@@ -54,8 +54,8 @@ export function deleteCategories(id){
  */
 export function createCategories(data) {
   return request({
-    url: 'categories/create',
-    method: 'post',
+    url: "admin/categories/create",
+    method: "post",
     data
   })
 }
@@ -66,8 +66,8 @@ export function createCategories(data) {
  */
 export function updateCategories(data) {
   return request({
-    url: 'categories/update',
-    method: 'post',
+    url: "admin/categories/update",
+    method: "post",
     data
   })
 }

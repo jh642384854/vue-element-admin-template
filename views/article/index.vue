@@ -44,7 +44,7 @@
           {{ scope.row.status | statusFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="created_time" sortable  width="200" title="创建时间" :formatter="formatTime">
+      <vxe-table-column field="created_at" sortable  width="200" title="创建时间" :formatter="formatTime">
       </vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
       <vxe-table-column title="操作">

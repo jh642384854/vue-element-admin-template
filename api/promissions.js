@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchList 获取权限列表]
  * @param  {[type]} params [description]
@@ -6,8 +6,8 @@ import request from '@/utils/request'
  */
 export function fetchPromissionsList(params){
   return request({
-    url:"promissions/list",
-    method:"get",
+    url: "admin/promissions/list",
+    method: "get",
     params
   })
 }
@@ -18,8 +18,8 @@ export function fetchPromissionsList(params){
  */
 export function fetchPromissionsTreeList(params){
   return request({
-    url:"promissions/treelist",
-    method:"get",
+    url: "admin/promissions/treelist",
+    method: "get",
     params
   })
 }
@@ -30,8 +30,8 @@ export function fetchPromissionsTreeList(params){
  */
 export function deletePromissions(id){
   return request({
-    url: 'promissions/delete',
-    method: 'get',
+    url: "admin/promissions/delete",
+    method: "get",
     params: { id }
   })
 }
@@ -42,8 +42,8 @@ export function deletePromissions(id){
  */
 export function createPromissions(data) {
   return request({
-    url: 'promissions/create',
-    method: 'post',
+    url: "admin/promissions/create",
+    method: "post",
     data
   })
 }
@@ -54,8 +54,8 @@ export function createPromissions(data) {
  */
 export function updatePromissions(data) {
   return request({
-    url: 'promissions/update',
-    method: 'post',
+    url: "admin/promissions/update",
+    method: "post",
     data
   })
 }

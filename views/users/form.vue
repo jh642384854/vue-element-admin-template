@@ -106,7 +106,7 @@ export default {
         const id = this.$route.params && this.$route.params.id
         this.fetchUserData(id)
       }
-      this.postForm.created_time = Date.parse(new Date())
+      this.postForm.created_at = Date.parse(new Date())
       //获取用户的其他相关属性
       getUserConfig().then(response => {
         this.userStatus = response.data.attrStatus

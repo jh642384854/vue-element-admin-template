@@ -8,7 +8,7 @@
       <vxe-table-column field="catename" width="150" title="所属栏目"></vxe-table-column>
       <vxe-table-column field="title" width="200" title="标题"></vxe-table-column>
       <vxe-table-column field="sort" sortable width="75" title="排序"></vxe-table-column>
-      <vxe-table-column field="created_time" sortable  width="200" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" sortable  width="200" title="创建时间"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
       <vxe-table-column title="操作" width="120" >
         <template v-slot="{ row }">

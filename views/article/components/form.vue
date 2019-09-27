@@ -45,7 +45,7 @@
             </el-col>
             <el-col :span="6">
               <el-form-item label="发布日期">
-                <el-date-picker v-model="postForm.created_time" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" value-format="timestamp"></el-date-picker>
+                <el-date-picker v-model="postForm.created_at" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择日期时间" value-format="timestamp"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
@@ -141,7 +141,7 @@ const defaultForm = {
   attributes:[],
   is_outside_chain:false,  //是否是外链
   outside_chain_url:'',//外链地址
-  created_time:''  //这里的单位是毫秒
+  created_at:''  //这里的单位是毫秒
 }
 
 export default {
@@ -187,7 +187,7 @@ export default {
         const id = this.$route.params && this.$route.params.id
         this.fetchArticleData(id)
       }
-      this.postForm.created_time = Date.parse(new Date())
+      this.postForm.created_at = Date.parse(new Date())
       //获取栏目列表
       fetchList().then(response => {
         this.categories = response.data.items

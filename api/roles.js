@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchList 获取角色列表]
  * @param  {[type]} params [description]
@@ -6,8 +6,8 @@ import request from '@/utils/request'
  */
 export function fetchRolesList(params){
   return request({
-    url:"roles/list",
-    method:"get",
+    url: "admin/roles/list",
+    method: "get",
     params
   })
 }
@@ -18,8 +18,8 @@ export function fetchRolesList(params){
  */
 export function deleteRoles(id){
   return request({
-    url: 'roles/delete',
-    method: 'get',
+    url: "admin/roles/delete",
+    method: "get",
     params: { id }
   })
 }
@@ -30,8 +30,8 @@ export function deleteRoles(id){
  */
 export function createRoles(data) {
   return request({
-    url: 'roles/create',
-    method: 'post',
+    url: "admin/roles/create",
+    method: "post",
     data
   })
 }
@@ -42,8 +42,8 @@ export function createRoles(data) {
  */
 export function updateRoles(data) {
   return request({
-    url: 'roles/update',
-    method: 'post',
+    url: "admin/roles/update",
+    method: "post",
     data
   })
 }
@@ -54,8 +54,8 @@ export function updateRoles(data) {
  */
 export function saveRolePermission(data) {
   return request({
-    url: 'roles/savepermission',
-    method: 'post',
+    url: "admin/roles/savepermission",
+    method: "post",
     data
   })
 }
@@ -66,8 +66,8 @@ export function saveRolePermission(data) {
  */
 export function fetchRolePermissions(params){
   return request({
-    url:"roles/getpermissions",
-    method:"get",
+    url: "admin/roles/getpermissions",
+    method: "get",
     params
   })
 }

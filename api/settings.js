@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchList 获取系统配置]
  * @param  {[type]} params [description]
@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export function fetchSysConfig(params){
   return request({
-    url:"settings/sys",
+    url: "admin/settings/sys",
     method:"get",
     params
   })
@@ -18,8 +18,8 @@ export function fetchSysConfig(params){
  */
 export function saveSysConfig(data){
   return request({
-    url: 'settings/sys',
-    method: 'post',
+    url: "admin/settings/sys",
+    method: "post",
     data
   })
 }
@@ -30,8 +30,8 @@ export function saveSysConfig(data){
  */
 export function fetchEmailConfig(params){
   return request({
-    url:"settings/email",
-    method:"get",
+    url: "admin/settings/email",
+    method: "get",
     params
   })
 }
@@ -42,8 +42,8 @@ export function fetchEmailConfig(params){
  */
 export function saveEmailConfig(data){
   return request({
-    url: 'settings/email',
-    method: 'post',
+    url: "admin/settings/email",
+    method: "post",
     data
   })
 }
@@ -67,8 +67,8 @@ export function fetchCustomConfig(params){
  */
 export function saveCustomConfig(data){
   return request({
-    url: 'settings/customvariables',
-    method: 'post',
+    url: "admin/settings/customvariables",
+    method: "post",
     data
   })
 }

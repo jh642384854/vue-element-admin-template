@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchList 获取文章列表]
  * @param  {[type]} params [description]
@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export function fetchListArticles(params){
   return request({
-    url:"articles/list",
+    url: "admin/articles/list",
     method:"get",
     params
   })
@@ -18,7 +18,7 @@ export function fetchListArticles(params){
  */
 export function fetchArticlesGetOne(params){
   return request({
-    url:"articles/getone",
+    url: "admin/articles/getone",
     method:"get",
     params
   })
@@ -30,7 +30,7 @@ export function fetchArticlesGetOne(params){
  */
 export function fetchArticlesAttributes(params){
   return request({
-    url:"articles/attributes",
+    url: "admin/articles/attributes",
     method:"get",
     params
   })
@@ -42,8 +42,8 @@ export function fetchArticlesAttributes(params){
  */
 export function deleteArticles(data){
   return request({
-    url: 'articles/delete',
-    method: 'post',
+    url: "admin/articles/delete",
+    method: "post",
     data
   })
 }
@@ -54,8 +54,8 @@ export function deleteArticles(data){
  */
 export function createArticles(data) {
   return request({
-    url: 'articles/create',
-    method: 'post',
+    url: "admin/articles/create",
+    method: "post",
     data
   })
 }
@@ -66,8 +66,8 @@ export function createArticles(data) {
  */
 export function updateArticles(data) {
   return request({
-    url: 'articles/update',
-    method: 'post',
+    url: "admin/articles/update",
+    method: "post",
     data
   })
 }

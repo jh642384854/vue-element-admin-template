@@ -30,7 +30,7 @@
           {{ scope.row.status | statusFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="created_time" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <el-button size="mini" type="success">

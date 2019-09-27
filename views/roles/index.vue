@@ -7,10 +7,11 @@
     </div>
 
     <el-table :data="list" border style="width: 100%">
+      <el-table-column type="index"  title="序号" width="100"></el-table-column>
       <el-table-column prop="role_name" label="名称" sortable width="180">
       </el-table-column>
       </el-table-column>
-      <el-table-column prop="listorder" label="排序" sortable width="100">
+      <el-table-column prop="sort" label="排序" sortable width="100">
       </el-table-column>
       <el-table-column prop="remark" label="备注">
       </el-table-column>
@@ -36,8 +37,8 @@
         <el-form-item label="备注" prop="remark">
           <el-input v-model="ruleForm.remark" />
         </el-form-item>
-        <el-form-item label="排序" prop="listorder">
-          <el-input-number v-model="ruleForm.listorder" :min="1" :max="100"></el-input-number>
+        <el-form-item label="排序" prop="sort">
+          <el-input-number v-model="ruleForm.sort" :min="1" :max="100"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -119,7 +120,7 @@ export default {
         created_at:'',
         role_name:'',
         remark: '',
-        listorder: ''
+        sort: ''
       },
       rules: {
         username: [{ required: true, message: '账户名必须填写', trigger: 'blur' }]
@@ -145,30 +146,40 @@ export default {
     },
     resetTemp() {
       this.ruleForm = {
-        role_id:'',
+        id:'',
         created_at:'',
         name:'',
         remark: '',
-        listorder: ''
+        sort: ''
       }
     },
     assignPermissions(row){
-      this.selectRoleid = row.role_id
+      this.selectRoleid = row.id
       this.dialogPermissionsFormVisible = true
       let params = {
-        role_id : this.selectRoleid
+        id : this.selectRoleid
       }
       fetchRolePermissions(params).then(response => {
-        this.checkedPermissions = response.data.items
+        if(response.data.status == this.GLOBAL.SuccessText){
+          this.checkedPermissions = response.data.items
+        }else{
+          this.dialogPermissionsFormVisible = false
+          this.GLOBAL.msgNotify('error','失败',response.data.msg)
+        }
       })
       fetchPromissionsTreeList().then(response => {
-        this.allPermissions = response.data.items
+        if(response.data.status == this.GLOBAL.SuccessText){
+          this.allPermissions = response.data.items
+        }else{
+          this.dialogPermissionsFormVisible = false
+          this.GLOBAL.msgNotify('error','失败',response.data.msg)
+        }
       })
     },
     savePermissions(row){
       //this.$refs.permissions.getCheckedNodes() //这个获取的是一组对象
       let data = {
-        role_id:this.selectRoleid,
+        id:this.selectRoleid,
         permissions:this.$refs.permissions.getCheckedKeys() //这个方法单纯的只是获取权限ID
       }
       saveRolePermission(data).then((response) => {
@@ -193,7 +204,7 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           createRoles(this.ruleForm).then((response) => {
-            this.ruleForm.role_id = response.data.last_id
+            this.ruleForm.id = response.data.last_id
             this.ruleForm.created_at = response.data.created_at
             this.list.unshift(this.ruleForm)
             this.dialogFormVisible = false
@@ -221,7 +232,7 @@ export default {
           const tempData = Object.assign({}, this.ruleForm)
           updateRoles(tempData).then(() => {
             for (const v of this.list) {
-              if (v.role_id === this.ruleForm.role_id) {
+              if (v.id === this.ruleForm.id) {
                 const index = this.list.indexOf(v)
                 this.list.splice(index, 1, this.ruleForm)
                 break

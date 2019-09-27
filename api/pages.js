@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchList 获取单页列表]
  * @param  {[type]} params [description]
@@ -6,7 +6,7 @@ import request from '@/utils/request'
  */
 export function fetchList(params){
   return request({
-    url:"pages/list",
+    url: "admin/pages/list",
     method:"get",
     params
   })
@@ -18,7 +18,7 @@ export function fetchList(params){
  */
 export function fetchPages(params){
   return request({
-    url:"pages/getone",
+    url: "admin/pages/getone",
     method:"get",
     params
   })
@@ -31,8 +31,8 @@ export function fetchPages(params){
  */
 export function savePages(data) {
   return request({
-    url: 'pages/save',
-    method: 'post',
+    url: "admin/pages/save",
+    method: "post",
     data
   })
 }

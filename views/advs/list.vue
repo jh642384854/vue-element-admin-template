@@ -33,7 +33,7 @@
           <el-link :href="scope.row.link_url" target="_blank" type="primary">{{ scope.row.link_url }}</el-link>
         </template>
       </vxe-table-column>
-      <vxe-table-column field="created_time" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <el-button size="mini" type="success">
@@ -149,7 +149,7 @@ export default {
         limit: 20,
         cid: '',
       },
-      listOrders:[],
+      sorts:[],
       dialogStatus: '',
       dialogFormVisible: false,
       textMap: {
@@ -163,7 +163,7 @@ export default {
         upload_img_url:'',
         list_order: '',
         link_url: '',
-        created_time:''
+        created_at:''
       },
       rules:{
         name: [{ required: true, message: '广告名称必须填写', trigger: 'blur' }],
@@ -234,7 +234,7 @@ export default {
         upload_img_url:'',
         list_order: '',
         link_url: '',
-        created_time:''
+        created_at:''
       }
     },
     handleCreate() {
@@ -258,7 +258,7 @@ export default {
                 this.postForm.img_url = this.postForm.upload_img_url
               }
               this.postForm.id = response.data.last_id
-              this.postForm.created_time = response.data.created_time
+              this.postForm.created_at = response.data.created_at
               this.tableData.unshift(this.postForm)
               this.dialogFormVisible = false
               this.GLOBAL.msgNotify('success','成功',response.data.msg)

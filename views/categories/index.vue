@@ -26,7 +26,7 @@
       <vxe-table-column field="name" width="100" title="中文名称" ></vxe-table-column>
       <vxe-table-column field="en_name" width="100" title="英文名称" show-overflow></vxe-table-column>
       <vxe-table-column field="sort" width="50" title="排序" ></vxe-table-column>
-      <vxe-table-column field="created_time" width="150" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" width="150" title="创建时间"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-header-overflow show-overflow></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
@@ -157,7 +157,7 @@ export default {
         id:'',
         pid:0,
         mid:'',
-        created_time:'',
+        created_at:'',
         en_name:'',
         name: '',
         description: '',
@@ -201,7 +201,7 @@ export default {
         id:'',
         pid:0,
         mid:'',
-        created_time:'',
+        created_at:'',
         en_name:'',
         name: '',
         description: '',
@@ -226,7 +226,7 @@ export default {
           createCategories(this.ruleForm).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
               this.ruleForm.id = response.data.last_id
-              this.ruleForm.created_time = response.data.created_time
+              this.ruleForm.created_at = response.data.created_at
               //如果添加的是顶级栏目
               if(this.ruleForm.pid === 0){
                 this.list.unshift(this.ruleForm)

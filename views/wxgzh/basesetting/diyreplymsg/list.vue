@@ -16,7 +16,7 @@
       <vxe-table-column field="msgTypeID" width="100" title="素材类型"></vxe-table-column>
       <vxe-table-column field="materialText" title="素材内容" show-overflow>
       </vxe-table-column>
-      <vxe-table-column field="created_time" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <el-button type="success">

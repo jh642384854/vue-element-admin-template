@@ -17,7 +17,7 @@
       <vxe-table-column field="size" title="广告尺寸" :formatter="formatterSize" width="120"></vxe-table-column>
       <vxe-table-column field="advs" title="广告数量" width="100"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
-      <vxe-table-column field="created_time" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <el-button size="mini" type="success">
@@ -171,7 +171,7 @@ export default {
           createAdvCates(this.postForm).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
               this.postForm.id = response.data.last_id
-              this.postForm.created_time = response.data.created_time
+              this.postForm.created_at = response.data.created_at
               this.tableData.unshift(this.postForm)
               this.dialogFormVisible = false
               this.GLOBAL.msgNotify('success','成功',response.data.msg)

@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchList 获取管理员列表]
  * @param  {[type]} params [description]
@@ -6,8 +6,8 @@ import request from '@/utils/request'
  */
 export function fetchList(params){
   return request({
-    url:"adminuser/list",
-    method:"get",
+    url: "admin/adminuser/list",
+    method: "get",
     params
   })
 }
@@ -18,8 +18,8 @@ export function fetchList(params){
  */
 export function deleteAdminUser(id){
   return request({
-    url: 'adminuser/delete',
-    method: 'get',
+    url: "admin/adminuser/delete",
+    method: "get",
     params: { id }
   })
 }
@@ -30,8 +30,8 @@ export function deleteAdminUser(id){
  */
 export function createAdminUser(data) {
   return request({
-    url: 'adminuser/create',
-    method: 'post',
+    url: "admin/adminuser/create",
+    method: "post",
     data
   })
 }
@@ -42,8 +42,8 @@ export function createAdminUser(data) {
  */
 export function updateAdminUser(data) {
   return request({
-    url: 'adminuser/update',
-    method: 'post',
+    url: "admin/adminuser/update",
+    method: "post",
     data
   })
 }
@@ -54,8 +54,8 @@ export function updateAdminUser(data) {
  */
 export function fetchAllRoels(){
   return request({
-    url: 'roles/list',
-    method: 'get'
+    url: "admin/roles/list",
+    method: "get"
   })
 }
 
@@ -66,8 +66,8 @@ export function fetchAllRoels(){
  */
 export function login(data) {
   return request({
-    url: 'adminuser/login',
-    method: 'post',
+    url: "admin/adminuser/login",
+    method: "post",
     data
   })
 }
@@ -78,8 +78,8 @@ export function login(data) {
  */
 export function getInfo(token) {
   return request({
-    url: 'adminuser/info',
-    method: 'get',
+    url: "admin/adminuser/info",
+    method: "get",
     params: { token }
   })
 }
@@ -89,7 +89,7 @@ export function getInfo(token) {
  */
 export function logout() {
   return request({
-    url: 'adminuser/logout',
-    method: 'post'
+    url: "admin/adminuser/logout",
+    method: "post"
   })
 }

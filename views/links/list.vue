@@ -19,7 +19,7 @@
       </vxe-table-column>
       <vxe-table-column field="contact_user" title="站点联系人"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
-      <vxe-table-column field="created_time" title="创建时间"></vxe-table-column>
+      <vxe-table-column field="created_at" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
         <template v-slot="{ row }">
           <el-button size="mini" type="success">
@@ -125,7 +125,7 @@ export default {
       listLoading:true,
       total: 0,
       tableData:[],
-      listOrders:[],
+      sorts:[],
       dialogStatus: '',
       dialogFormVisible: false,
       textMap: {
@@ -141,7 +141,7 @@ export default {
         link_url: '',
         description:'',
         status:1,
-        created_time:''
+        created_at:''
       },
       rules:{
         name: [{ required: true, message: '链接名称必须填写', trigger: 'blur' }],
@@ -202,7 +202,7 @@ export default {
         link_url: '',
         description:'',
         status:1,
-        created_time:''
+        created_at:''
       }
     },
     handleCreate() {
@@ -226,7 +226,7 @@ export default {
                 this.postForm.img_url = this.postForm.upload_img_url
               }
               this.postForm.id = response.data.last_id
-              this.postForm.created_time = response.data.created_time
+              this.postForm.created_at = response.data.created_at
               this.tableData.unshift(this.postForm)
               this.dialogFormVisible = false
               this.GLOBAL.msgNotify('success','成功',response.data.msg)

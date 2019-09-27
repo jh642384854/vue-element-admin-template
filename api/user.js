@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from "@/utils/request"
 /**
  * [fetchUserList 获取用户列表]
  * @param  {[type]} params [description]
@@ -6,8 +6,8 @@ import request from '@/utils/request'
  */
 export function fetchUserList(params){
   return request({
-    url:"user/list",
-    method:"get",
+    url: "admin/user/list",
+    method: "get",
     params
   })
 }
@@ -19,8 +19,8 @@ export function fetchUserList(params){
  */
 export function getOneUserInfo(params){
   return request({
-    url:"user/getone",
-    method:"get",
+    url: "admin/user/getone",
+    method: "get",
     params
   })
 }
@@ -32,8 +32,8 @@ export function getOneUserInfo(params){
  */
 export function getUserConfig(params){
   return request({
-    url:"user/config",
-    method:"get",
+    url: "admin/user/config",
+    method: "get",
     params
   })
 }
@@ -44,8 +44,8 @@ export function getUserConfig(params){
  */
 export function saveUserInfo(data) {
   return request({
-    url: 'user/save',
-    method: 'post',
+    url: "admin/user/save",
+    method:  "post",
     data
   })
 }
@@ -56,8 +56,8 @@ export function saveUserInfo(data) {
  */
 export function deleteOneUser(params){
   return request({
-    url:"user/delete",
-    method:"get",
+    url: "admin/user/delete",
+    method: "get",
     params
   })
 }
