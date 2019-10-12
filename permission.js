@@ -32,9 +32,11 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // get user info
-          await store.dispatch('adminuser/getInfo')
-
-          next()
+          const { roles } = await store.dispatch('adminuser/getInfo')
+          //根据用户来动态获取可操作的菜单
+          const accessRoutes = await store.dispatch('permission/generateRoutes', "jhdemo")
+          router.addRoutes(accessRoutes)
+          next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('adminuser/resetToken')
@@ -62,3 +64,5 @@ router.afterEach(() => {
   // finish progress bar
   NProgress.done()
 })
+
+

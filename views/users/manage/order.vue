@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { fetchsorts,deleteOrders } from '@/api/user_order'
+import { fetchListOrders,deleteOrders } from '@/api/user_order'
 import Pagination from '@/components/Pagination'  
 
 const orderStatusData = [{id:1,name:"待付款"},{id:2,name:"待发货"},{id:3,name:"已发货"},{id:4,name:"已收货"},{id:5,name:"已完成"},{id:6,name:"已关闭"},{id:7,name:"已退款"}]
@@ -93,7 +93,7 @@ export default {
         }]
       }
     }
-  },
+  }, 
   created(){
     this.init()
   },
@@ -104,7 +104,7 @@ export default {
     },
     getList(){
       this.listLoading = true
-      fetchsorts(this.listQuery).then(response => {
+      fetchListOrders(this.listQuery).then(response => {
         this.tableData = response.data.items
         this.total = response.data.total
         this.listLoading = false

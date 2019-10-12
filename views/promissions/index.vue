@@ -35,7 +35,7 @@
     <pagination v-show="total>0" :total="total"  @pagination="getList" />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="70px">
+      <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="80px">
         <el-form-item label="类别" prop="pid">
           <SelectTree
             v-model.number="ruleForm.pid"
@@ -54,6 +54,30 @@
         <el-form-item label="路径" prop="path">
           <el-input v-model="ruleForm.path" />
         </el-form-item>
+        <el-form-item label="是否显示">
+          <el-switch v-model="ruleForm.is_show" active-text="是" inactive-text="否" :active-value="1" :inactive-value="0"></el-switch>
+        </el-form-item>
+        <el-row :gutter="24">
+          <el-col :span="6">
+            <el-form-item label="组件名" prop="component">
+              <el-input v-model="ruleForm.component"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="18" style="line-height: 28px;">
+            这个是用来和vue对应的视图文件相关联
+          </el-col>
+        </el-row>
+        <el-row :gutter="24">
+          <el-col :span="6">
+            <el-form-item label="图标icon" prop="icon" >
+              <el-input v-model="ruleForm.icon" @change="previewIcon($event)"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="18" style="line-height: 28px;">
+            <span v-if="previewEleIcon != ''">预览：<i :class="previewEleIcon" style="color: #1989fa"></i>。</span>
+            图标属性可以参考 <a href="https://element.eleme.cn/#/zh-CN/component/icon" target="_blank" style="color: #ff0000">element UI 图标</a>注意：输入的icon不需要带上<span style="color: #ff0000">"el-icon-"</span>的前缀
+          </el-col>
+        </el-row>
         <el-form-item label="方法" prop="method">
           <el-radio-group v-model="ruleForm.method">
             <el-radio v-for="role in methodTypes" :label="role.key" :key="role.key">{{ role.display_name }}</el-radio>
@@ -109,6 +133,7 @@ export default {
       total: 0,
       list: [],
       methodTypes,
+      previewEleIcon: '',
       menuDataSelectTree:'',
       promissionParents: [],
       listLoading: true,
@@ -135,6 +160,9 @@ export default {
         remark: '',
         path: '',
         method:'',
+        is_show:1,
+        component:'',
+        icon:'',
         sort:1,
         children:[]
       },
@@ -142,7 +170,9 @@ export default {
         pid: [{ required: true, message: '类别必须选择', trigger: 'blur' }],
         name: [{ required: true, message: '权限名必须填写', trigger: 'blur' }],
         method: [{ required: true, message: '请求方法必须选择', trigger: 'blur' }],
-        path: [{ required: true, message: '权限路径必须填写', trigger: 'blur' }]
+        path: [{ required: true, message: '权限路径必须填写', trigger: 'blur' }],
+        component: [{ required: true, message: '权限组件必须填写', trigger: 'blur' }],
+        icon: [{ required: true, message: '权限icon必须填写', trigger: 'blur' }],
       }
     }
   },
@@ -168,9 +198,16 @@ export default {
         remark: '',
         path: '',
         method:'',
+        is_show:1,
+        component:'',
+        icon:'',
         sort:1,
         children:[]
       }
+    },
+    previewIcon(e){
+      this.previewEleIcon = 'el-icon-'+e
+      console.log(this.previewEleIcon)
     },
     getSelectTreeValue(value, type) {
       if(value === null){

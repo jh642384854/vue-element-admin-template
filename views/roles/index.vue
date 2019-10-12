@@ -52,7 +52,7 @@
     </el-dialog>
 
     <!-- 为角色分配权限 -->
-    <el-dialog title="权限分配" :visible.sync="dialogPermissionsFormVisible">
+    <el-dialog title="权限分配" :visible.sync="dialogPermissionsFormVisible" @close="closeAssignPermissions">
       <el-form ref="dataForm" :rules="rules" :model="ruleForm" label-position="left" label-width="70px">
         <el-tree
           :data="allPermissions"
@@ -105,7 +105,7 @@ export default {
       dialogPermissionsFormVisible: false,
       selectRoleid:'',
       allPermissions:[],
-      checkedPermissions:[12, 14, 21, 24, 28, 3],
+      checkedPermissions:[],
       defaultProps: {
         children: 'children',
         label: 'name'
@@ -148,10 +148,14 @@ export default {
       this.ruleForm = {
         id:'',
         created_at:'',
-        name:'',
+        role_name:'',
         remark: '',
         sort: ''
       }
+    },
+    closeAssignPermissions(){
+      //清空原来选择的某个角色的权限
+      this.checkedPermissions = []
     },
     assignPermissions(row){
       this.selectRoleid = row.id
@@ -164,7 +168,7 @@ export default {
           this.checkedPermissions = response.data.items
         }else{
           this.dialogPermissionsFormVisible = false
-          this.GLOBAL.msgNotify('error','失败',response.data.msg)
+          this.GLOBAL.msgNotify('error','失败1',response.data.msg)
         }
       })
       fetchPromissionsTreeList().then(response => {
@@ -172,25 +176,29 @@ export default {
           this.allPermissions = response.data.items
         }else{
           this.dialogPermissionsFormVisible = false
-          this.GLOBAL.msgNotify('error','失败',response.data.msg)
+          this.GLOBAL.msgNotify('error','失败2',response.data.msg)
         }
       })
     },
     savePermissions(row){
       //this.$refs.permissions.getCheckedNodes() //这个获取的是一组对象
-      let data = {
-        id:this.selectRoleid,
-        permissions:this.$refs.permissions.getCheckedKeys() //这个方法单纯的只是获取权限ID
-      }
-      saveRolePermission(data).then((response) => {
-        if(response.data.status == this.GLOBAL.SuccessText){
-          this.dialogPermissionsFormVisible = false
-          this.checkedPermissions = []
-          this.GLOBAL.msgNotify('success','成功',response.data.msg)
-        }else{
-          this.GLOBAL.msgNotify('error','失败',response.data.msg)
+      if(this.$refs.permissions.getCheckedKeys().length <= 0){
+        this.$message({type: 'error',message:'请选择权限'})
+      }else{
+        let data = {
+          role_id:this.selectRoleid,
+          permissions:this.$refs.permissions.getCheckedKeys().join(",") //这个方法单纯的只是获取权限ID
         }
-      })
+        saveRolePermission(data).then((response) => {
+          if(response.data.status == this.GLOBAL.SuccessText){
+            this.dialogPermissionsFormVisible = false
+            this.checkedPermissions = []
+            this.GLOBAL.msgNotify('success','成功',response.data.msg)
+          }else{
+            this.GLOBAL.msgNotify('error','失败',response.data.msg)
+          }
+        })
+      }
     },
     handleCreate() {
       this.resetTemp()
@@ -203,17 +211,19 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createRoles(this.ruleForm).then((response) => {
-            this.ruleForm.id = response.data.last_id
-            this.ruleForm.created_at = response.data.created_at
-            this.list.unshift(this.ruleForm)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
+          const tempData = Object.assign({}, this.ruleForm)
+          delete tempData.id
+          delete tempData.created_at
+          createRoles(tempData).then((response) => {
+            if(response.data.status == this.GLOBAL.SuccessText){
+              tempData.id = response.data.last_id
+              tempData.created_at = response.data.created_at
+              this.list.unshift(tempData)
+              this.dialogFormVisible = false
+              this.GLOBAL.msgNotify('success','成功',response.data.msg)
+            }else{
+              this.GLOBAL.msgNotify('error','失败',response.data.msg)
+            }
           })
         }
       })
@@ -230,21 +240,20 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.ruleForm)
-          updateRoles(tempData).then(() => {
-            for (const v of this.list) {
-              if (v.id === this.ruleForm.id) {
-                const index = this.list.indexOf(v)
-                this.list.splice(index, 1, this.ruleForm)
-                break
+          updateRoles(tempData).then((response) => {
+            if(response.data.status == this.GLOBAL.SuccessText){
+              for (const v of this.list) {
+                if (v.id === this.ruleForm.id) {
+                  const index = this.list.indexOf(v)
+                  this.list.splice(index, 1, this.ruleForm)
+                  break
+                }
               }
+              this.dialogFormVisible = false
+              this.GLOBAL.msgNotify('success','成功',response.data.msg)
+            }else{
+              this.GLOBAL.msgNotify('error','失败',response.data.msg)
             }
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
-            })
           })
         }
       })
@@ -257,12 +266,7 @@ export default {
         cancelButtonText: '放弃'
       }).then(() => {
         deleteRoles(row.id).then(response=>{
-          this.$notify({
-            title: '成功',
-            message: '删除成功',
-            type: 'success',
-            duration: 2000
-          })
+          this.GLOBAL.msgNotify('success','成功',response.data.msg)
           const index = this.list.indexOf(row)
           this.list.splice(index, 1)
         })

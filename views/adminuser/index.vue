@@ -14,10 +14,7 @@
     </div>
 
     <el-table :data="list" border style="width: 100%" @selection-change="handleSelectionChange">
-      <el-table-column
-        type="selection"
-        width="55">
-      </el-table-column>
+      <el-table-column type="index" title="序号" width="100"></el-table-column>
       <el-table-column prop="username" label="用户名" sortable width="180">
       </el-table-column>
       <el-table-column prop="roles" label="角色" width="180">
@@ -84,7 +81,7 @@
         </el-form-item>
         <el-form-item label="角色" prop="roles">
           <el-checkbox-group v-model="ruleForm.roles">
-            <el-checkbox v-for="role in adminRoles" :label="role.role_id" :key="role.role_id">{{role.role_name}}</el-checkbox>
+            <el-checkbox v-for="role in adminRoles" :label="role.id" :key="role.id">{{role.role_name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -129,14 +126,19 @@ export default {
     },
     rolesFilter(roles){
       var roleName = ''
-      for(var index in _this.adminRoles){
-        for(var n in roles){
-          if(roles[n] == _this.adminRoles[index]['role_id']){
-              roleName += _this.adminRoles[index]['role_name']+','
+      if(roles != ""){
+        roles = roles.split(",")
+        for(var index in _this.adminRoles){
+          for(var n in roles){
+            if(roles[n] == _this.adminRoles[index]['id']){
+                roleName += _this.adminRoles[index]['role_name']+','
+            }
           }
         }
+        return roleName.substring(0, roleName.length-1)
+      }else{
+        return roleName
       }
-      return roleName.substring(0, roleName.length-1);
     }
   },
   beforeCreate: function () {
@@ -239,17 +241,20 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          createAdminUser(this.ruleForm).then((response) => {
-            this.ruleForm.id = response.data.last_id
-            this.ruleForm.created_at = response.data.created_at
-            this.list.unshift(this.ruleForm)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '创建成功',
-              type: 'success',
-              duration: 2000
-            })
+          const tempData = Object.assign({}, this.ruleForm)
+          tempData.roles = this.ruleForm.roles.join(",")
+          delete tempData.id
+          delete tempData.created_at
+          createAdminUser(tempData).then((response) => {
+            if(response.data.status == this.GLOBAL.SuccessText){
+              tempData.id = response.data.last_id
+              tempData.created_at = response.data.created_at
+              this.list.unshift(tempData)
+              this.dialogFormVisible = false
+              this.GLOBAL.msgNotify('success','成功',response.data.msg)
+            }else{
+              this.GLOBAL.msgNotify('error','失败',response.data.msg)
+            }
           })
         }
       })
@@ -257,6 +262,14 @@ export default {
     handleEdit(index, row) {
       this.getAllRoles()
       this.ruleForm = Object.assign({}, row)
+      var dataIntArr=[]
+      //将拆分后的字符串数字转换为整型
+      if(row.roles != ""){
+        row.roles.split(",").forEach(function(data,index,arr){  
+            dataIntArr.push(+data)
+        })
+      }
+      this.ruleForm.roles =  dataIntArr
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -267,21 +280,17 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const tempData = Object.assign({}, this.ruleForm)
-          updateAdminUser(tempData).then(() => {
+          tempData.roles = this.ruleForm.roles.join(",")
+          updateAdminUser(tempData).then((response) => {
             for (const v of this.list) {
               if (v.id === this.ruleForm.id) {
                 const index = this.list.indexOf(v)
-                this.list.splice(index, 1, this.ruleForm)
+                this.list.splice(index, 1, tempData)
                 break
               }
             }
             this.dialogFormVisible = false
-            this.$notify({
-              title: '成功',
-              message: '更新成功',
-              type: 'success',
-              duration: 2000
-            })
+            this.GLOBAL.msgNotify('success','成功',response.data.msg)
           })
         }
       })

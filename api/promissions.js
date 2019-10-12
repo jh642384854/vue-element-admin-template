@@ -59,3 +59,15 @@ export function updatePromissions(data) {
     data
   })
 }
+/**
+ * [generateRoutes 根据当前用户获取可操作的权限]
+ * @param  {[type]} id [description]
+ * @return {[type]}    [description]
+ */
+export function generateRoutes(username){
+  return request({
+    url: "admin/permissions/generateRoutes",
+    method: "get",
+    params: { username }
+  })
+}
