@@ -37,7 +37,7 @@
           <el-input v-model="postForm.name" />
         </el-form-item>
         <el-form-item label="类型" prop="type">
-          <el-select v-model="postForm.type" placeholder="请选择">
+          <el-select v-model.number="postForm.type" placeholder="请选择">
             <el-option v-for="item in advCatesType"
               :key="item.id"
               :label="item.name"
@@ -58,7 +58,7 @@
               </el-form-item>
             </el-col>
         </el-row>
-        <el-form-item label="广告图片" prop="description">
+        <el-form-item label="描述" prop="description">
           <el-input v-model="postForm.description" />
         </el-form-item>
       </el-form>

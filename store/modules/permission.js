@@ -6,7 +6,7 @@ const state = {
   routes: [],
   addRoutes: []
 }
-
+   
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes //这个是实际的路由信息
@@ -18,7 +18,7 @@ const actions = {
   generateRoutes({ commit }, data){
     return new Promise((resolve, reject) => {
       generateRoutes(data).then(response=>{
-        const accessedRouters = convertRouter(response.data.menus)
+        const accessedRouters = convertRouter(response.data.items)
         commit('SET_ROUTES', accessedRouters)
         //请求继续往下进行，不会进行阻塞
         resolve(accessedRouters)
@@ -53,7 +53,7 @@ function convertRouter(asyncRouterMap) {
       accessedRouters.push(parent)
     })
   }
-  //在router/index.js中不要定义这行路由信息，而是通过这样的方式来动态添加，
+  //在router/index.js中不要定义这行路由信息，而是通过这样的方式来动态添加，这主要解决了通过动态添加地址进行刷新页面出现404的问题
   accessedRouters.push({ path: '*', redirect: '/404', hidden: true })
   return accessedRouters
 }
@@ -84,7 +84,14 @@ export const componentsMap = {
   editArticle: () => import('@/views/article/edit'),
   promissions: () => import('@/views/promissions/index'), 
   roles: () => import('@/views/roles/index'), 
-  list: () => import('@/views/adminuser/index') 
+  adminusers: () => import('@/views/adminuser/index'),
+  sysSetting: () => import('@/views/settings/sys'),
+  diySetting: () => import('@/views/settings/diy'),
+  smtpSetting: () => import('@/views/settings/email'),
+  advsOperation: () => import('@/views/advs/index'),
+  categoriesOperation: () => import('@/views/advs/advcategories'),
+  listOperation: () => import('@/views/advs/list'),
+  linksOperation: () => import('@/views/links/list'),
 }
 
 export default {

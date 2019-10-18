@@ -64,10 +64,10 @@ export function updatePromissions(data) {
  * @param  {[type]} id [description]
  * @return {[type]}    [description]
  */
-export function generateRoutes(username){
+export function generateRoutes(roles){
   return request({
-    url: "admin/permissions/generateRoutes",
+    url: "admin/promissions/generateRoutes",
     method: "get",
-    params: { username }
+    params: { roles }
   })
 }

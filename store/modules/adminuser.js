@@ -5,7 +5,7 @@ import { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
-  name: '',
+  username: '',
   avatar: '',
   roles:''
 }
@@ -14,8 +14,8 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_NAME: (state, username) => {
+    state.username = username
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -54,8 +54,8 @@ const actions = {
           if (!data) {
             reject('用户名密码验证失败，请重试')
           }
-          const { name, avatar, roles } = data
-          commit('SET_NAME', name)
+          const { username, avatar, roles } = data
+          commit('SET_NAME', username)
           commit('SET_AVATAR', avatar)
           commit('SET_ROLES', roles)
           resolve(data)

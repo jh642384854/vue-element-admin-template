@@ -172,8 +172,13 @@ export default {
     //处理图片上传成功后的操作
     handleThumbSuccess(response, file, fileList){
       if(response.data.status == this.GLOBAL.SuccessText){
-        //this.postForm.img_url = response.data.attachment.upload_file_path  //这个设置好像没有效果
-        this.postForm.upload_img_url = response.data.attachment.upload_file_path
+        const tempData = Object.assign({}, this.postForm)
+        tempData.img_url = response.data.attachment.upload_file_path
+        if(typeof(this.postForm.id) != 'undefined'){
+          this.doUpdatedLinks(tempData)
+        }else{
+          this.doCreateLinks(tempData)
+        }
       }else{
         this.GLOBAL.msgNotify('error','失败',response.data.msg)
         return false
@@ -219,21 +224,24 @@ export default {
           //判断是否选择了新图片上传
           if(this.hasSelectFileUpload){
             this.$refs.upload.submit()
+          }else{
+            this.doCreateLinks(this.postForm)
           }
-          createLinks(this.postForm).then((response) => {
-            if(response.data.status == this.GLOBAL.SuccessText){
-              if(this.postForm.upload_img_url != ""){
-                this.postForm.img_url = this.postForm.upload_img_url
-              }
-              this.postForm.id = response.data.last_id
-              this.postForm.created_at = response.data.created_at
-              this.tableData.unshift(this.postForm)
-              this.dialogFormVisible = false
-              this.GLOBAL.msgNotify('success','成功',response.data.msg)
-            }else{
-              this.GLOBAL.msgNotify('error','失败',response.data.msg)
-            }
-          })
+        }
+      })
+    },
+    doCreateLinks(data){
+      createLinks(data).then((response) => {
+        if(response.data.status == this.GLOBAL.SuccessText){
+          //将blod开头的文件地址替换为项目上传的图片地址
+          this.postForm.img_url = data.img_url
+          this.postForm.id = response.data.last_id
+          this.postForm.created_at = response.data.created_at
+          this.tableData.unshift(this.postForm)
+          this.dialogFormVisible = false
+          this.GLOBAL.msgNotify('success','成功',response.data.msg)
+        }else{
+          this.GLOBAL.msgNotify('error','失败',response.data.msg)
         }
       })
     },
@@ -252,26 +260,28 @@ export default {
           //判断是否选择了新图片上传
           if(this.hasSelectFileUpload){
             this.$refs.upload.submit()
+          }else{
+            this.doUpdatedLinks(this.postForm)
           }
-          const tempData = Object.assign({}, this.postForm)
-          updateLinks(tempData).then((response) => {
-            if(response.data.status == this.GLOBAL.SuccessText){
-              if(typeof(this.postForm.upload_img_url) != 'undefined'){
-                this.postForm.img_url = this.postForm.upload_img_url
-              }
-              for (const v of this.tableData) {
-                if (v.id === this.postForm.id) {
-                  const index = this.tableData.indexOf(v)
-                  this.tableData.splice(index, 1, this.postForm)
-                  break
-                }
-              }
-              this.dialogFormVisible = false 
-              this.GLOBAL.msgNotify('success','成功',response.data.msg)
-            }else{
-              this.GLOBAL.msgNotify('error','失败',response.data.msg)
+        }
+      })
+    },
+    doUpdatedLinks(data){
+      updateLinks(data).then((response) => {
+        if(response.data.status == this.GLOBAL.SuccessText){
+          //将blod开头的文件地址替换为项目上传的图片地址
+          this.postForm.img_url = data.img_url
+          for (const v of this.tableData) {
+            if (v.id === this.postForm.id) {
+              const index = this.tableData.indexOf(v)
+              this.tableData.splice(index, 1, this.postForm)
+              break
             }
-          })
+          }
+          this.dialogFormVisible = false 
+          this.GLOBAL.msgNotify('success','成功',response.data.msg)
+        }else{
+          this.GLOBAL.msgNotify('error','失败',response.data.msg)
         }
       })
     },

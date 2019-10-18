@@ -26,7 +26,7 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
+      const hasGetUserInfo = store.getters.username
       if (hasGetUserInfo) {
         next()
       } else {
@@ -34,8 +34,9 @@ router.beforeEach(async(to, from, next) => {
           // get user info
           const { roles } = await store.dispatch('adminuser/getInfo')
           //根据用户来动态获取可操作的菜单
-          const accessRoutes = await store.dispatch('permission/generateRoutes', "jhdemo")
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
           router.addRoutes(accessRoutes)
+          //参考http://www.bugshouji.com/mybug3/t859   https://www.cnblogs.com/moqiutao/p/8336436.html
           next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login
@@ -59,7 +60,6 @@ router.beforeEach(async(to, from, next) => {
     }
   }
 })
-
 router.afterEach(() => {
   // finish progress bar
   NProgress.done()
