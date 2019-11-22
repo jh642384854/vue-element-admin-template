@@ -52,6 +52,7 @@
               :accept="GLOBAL.AllowImageSuffix"
               :action="GLOBAL.UploadAttachmentUrl"
               list-type="picture"
+              :data="uploadData"
               :auto-upload="false"
               :show-file-list="false"
               :on-success="handleThumbSuccess"
@@ -132,6 +133,12 @@ export default {
         update: '修改',
         create: '创建'
       },
+      //上传附件提交的额外数据
+      uploadData:{
+        filemd5:'',
+        module: 'links',
+        cid:'',
+      },
       postForm: {
         name:'',
         type: 1,
@@ -140,8 +147,7 @@ export default {
         list_order: '',
         link_url: '',
         description:'',
-        status:1,
-        created_at:''
+        status:1
       },
       rules:{
         name: [{ required: true, message: '链接名称必须填写', trigger: 'blur' }],
@@ -167,13 +173,16 @@ export default {
       if(this.GLOBAL.uploadImageCheck(file, fileList)){
         this.hasSelectFileUpload = true
         this.postForm.img_url = file.url
+        this.GLOBAL.getFileMd5(file,filemd5=>{
+          this.uploadData.filemd5 = filemd5
+        })
       }
     },
     //处理图片上传成功后的操作
     handleThumbSuccess(response, file, fileList){
       if(response.data.status == this.GLOBAL.SuccessText){
         const tempData = Object.assign({}, this.postForm)
-        tempData.img_url = response.data.attachment.upload_file_path
+        tempData.img_url = response.data.upload_file_path
         if(typeof(this.postForm.id) != 'undefined'){
           this.doUpdatedLinks(tempData)
         }else{
@@ -206,8 +215,7 @@ export default {
         list_order: '',
         link_url: '',
         description:'',
-        status:1,
-        created_at:''
+        status:1
       }
     },
     handleCreate() {
@@ -314,8 +322,10 @@ export default {
         confirmButtonText: '删除',
         cancelButtonText: '放弃'
       }).then(() => {
+        let ids = []
+        ids.push(row.id)
         const data = {
-          "ids":row.id
+          "ids":ids
         }
         deleteLinks(data).then(response=>{
           if(response.data.status == this.GLOBAL.SuccessText){

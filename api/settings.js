@@ -55,7 +55,7 @@ export function saveEmailConfig(data){
  */
 export function fetchCustomConfig(params){
   return request({
-    url:"settings/customvariables",
+    url:"admin/settings/customvariables",
     method:"get",
     params
   })
@@ -68,6 +68,19 @@ export function fetchCustomConfig(params){
 export function saveCustomConfig(data){
   return request({
     url: "admin/settings/customvariables",
+    method: "post",
+    data
+  })
+}
+
+/**
+ * [saveEmailConfig 保存自定义配置]
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
+ */
+export function testSendEmail(data){
+  return request({
+    url: "admin/settings/testsendemail",
     method: "post",
     data
   })

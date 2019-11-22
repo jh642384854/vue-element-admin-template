@@ -2,12 +2,13 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.title" placeholder="请输入标题" style="width: 200px;" class="filter-item" @keyup.enter.native="searchArticle" />
-      <el-cascader v-model="listQuery.pid" :options="categories" :props="categoriesProps" clearable filterable></el-cascader>
-      <el-select v-model="listQuery.importance" placeholder="状态" clearable style="width: 90px" class="filter-item">
+      <el-cascader ref="searchCascader" v-model="searchCatid" :options="categories" :props="categoriesProps" clearable filterable @change="searchCascader"></el-cascader>
+      <el-select v-model="listQuery.status" placeholder="状态" clearable style="width: 90px" class="filter-item">
         <el-option v-for="item in articleStatus" :key="item.id" :label="item.name" :value="item.id" />
       </el-select>
       <el-date-picker
-        v-model="listQuery.dateRange"
+        ref="searchDatePicker"
+        v-model="searchDataRange"
         type="daterange"
         align="right"
         unlink-panels
@@ -15,6 +16,7 @@
         start-placeholder="开始日期"
         end-placeholder="结束日期"
         value-format="timestamp"
+        @change="searchDatePicker"
         :picker-options="pickerOptions">
       </el-date-picker>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="searchArticle">
@@ -36,7 +38,11 @@
       :row-class-name="tableRowClassName"
       >
       <vxe-table-column type="selection" width="60"></vxe-table-column>
-      <vxe-table-column field="catename" width="150" title="所属栏目"></vxe-table-column>
+      <vxe-table-column field="cid" width="150" title="所属栏目">
+        <template slot-scope="scope">
+          {{ scope.row.cid | catnameFilter }}
+        </template>
+      </vxe-table-column>
       <vxe-table-column field="title" width="200" title="标题"></vxe-table-column>
       <vxe-table-column field="sort" sortable width="75" title="排序"></vxe-table-column>
       <vxe-table-column field="status"  width="75" title="状态">
@@ -44,7 +50,7 @@
           {{ scope.row.status | statusFilter }}
         </template>
       </vxe-table-column>
-      <vxe-table-column field="created_at" sortable  width="200" title="创建时间" :formatter="formatTime">
+      <vxe-table-column field="created_time" sortable  width="200" title="创建时间" :formatter="formatTime">
       </vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
       <vxe-table-column title="操作">
@@ -87,6 +93,15 @@ export default {
         }
       }
       return statusName
+    },
+    catnameFilter(cid){
+      let Catname = ''
+      let rowNode = XEUtils.findTree(_this.categories, item => item.id === cid, _this.treeConfig)
+      if(rowNode != undefined){
+        return rowNode.item.name
+      }else{
+        return '未知栏目'
+      }
     }
   },
   beforeCreate: function () {
@@ -95,12 +110,15 @@ export default {
   data() {
     return {
       listLoading:true,
+      searchCatid:'',
+      searchDataRange:[],
+      isSearch: false,
       listQuery: {
         page: 1,
         limit: 20,
         title: '',
-        pid: '',
-        sort: '',
+        cid: '',
+        status: '',
         dateRange:'',
       },
       categories: [],
@@ -109,6 +127,9 @@ export default {
         label:'name',
         children:'children',
         checkStrictly:true    //可以直接选择父栏目(当没有父栏目没有子栏目的时候，这个选项就很有用)
+      },
+      treeConfig: {
+        children: 'children'
       },
       articleTags: [],
       articleAttributes:[],
@@ -152,11 +173,13 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      //获取栏目列表
-      fetchList(this.listQuery).then(response => {
-        this.categories = response.data.items
-      })
-      fetchListArticles().then(response => {
+      //获取栏目列表.如果是单独搜索的话，栏目不重新加载
+      if(!this.isSearch){
+        fetchList().then(response => {
+          this.categories = response.data.items
+        })
+      }
+      fetchListArticles(this.listQuery).then(response => {
         this.tableData = response.data.items
         this.total = response.data.total
         this.listLoading = false
@@ -165,24 +188,38 @@ export default {
     getArticleAttribute(){
       //获取文章的其他相关属性
       fetchArticlesAttributes().then(response => {
-        this.articleTags = response.data.tags
-        this.articleAttributes = response.data.attributes
-        this.articleStatus = response.data.status
+        this.articleTags = response.data.results.tags
+        this.articleAttributes = response.data.results.attributes
+        this.articleStatus = response.data.results.status
       })
     },
     searchArticle() {
+      this.isSearch = true
       this.listQuery.page = 1
       this.getList()
     },
     formatTime({ cellValue, row, column }){
-      //XEUtils参考https://xuliangzhan.github.io/xe-utils/
-      return XEUtils.toDateString(cellValue, 'yyyy-MM-dd HH:ss:mm')
+      return XEUtils.toDateString(cellValue*1000, 'yyyy-MM-dd HH:ss:mm')
     },
     tableRowClassName({row, rowIndex}) {
       if(!row.status){
         return 'warning-row';
       }
       return '';
+    },
+    searchCascader(val){
+      if(this.$refs['searchCascader'].getCheckedNodes().length){
+        this.listQuery.cid = this.$refs['searchCascader'].getCheckedNodes()[0].data.id
+      }else{
+        this.postForm.cid = 0
+      }
+    },
+    searchDatePicker(val){
+      let datarange = ''
+      XEUtils.map(val,item=>{
+        datarange += Math.ceil(item/1000)+','
+      })
+      this.listQuery.dateRange = datarange.substring(0, datarange.length-1)
     },
     batchDelete(){
       let selectRecords = this.$refs.xTable.getSelectRecords()

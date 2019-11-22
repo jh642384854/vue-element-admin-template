@@ -16,11 +16,10 @@ export function fetchListArticles(params){
  * @param  {[type]} params [description]
  * @return {[type]}        [description]
  */
-export function fetchArticlesGetOne(params){
+export function fetchArticlesGetOne(id){
   return request({
-    url: "admin/articles/getone",
-    method:"get",
-    params
+    url: "admin/articles/getone/"+id,
+    method:"get"
   })
 }
 /**

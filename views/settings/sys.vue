@@ -69,6 +69,7 @@
           ref="upload"
           :accept="GLOBAL.AllowImageSuffix"
           :action="GLOBAL.UploadAttachmentUrl"
+          :data="uploadData"
           list-type="picture"
           :auto-upload="false"
           :show-file-list="false"
@@ -106,6 +107,12 @@ export default {
     return {
       hasSelectFileUpload:false,  //用户是否选择了新上传文件
       listLoading:true,
+      //上传附件提交的额外数据
+      uploadData:{
+        filemd5:'',
+        module: 'sysSettings',
+        cid:'',
+      },
       postForm: {
         sitename:'',
         siteurl:'',
@@ -137,7 +144,9 @@ export default {
     getList() {
       this.listLoading = true
       fetchSysConfig().then(response => {
-        this.postForm = response.data.results
+        if(response.data.results != ''){
+          this.postForm = JSON.parse(response.data.results)
+        }
         this.listLoading = false
       })
     },
@@ -145,12 +154,19 @@ export default {
       if(this.GLOBAL.uploadImageCheck(file, fileList)){
         this.hasSelectFileUpload = true
         this.postForm.site_logo = file.url
+        this.GLOBAL.getFileMd5(file,filemd5=>{
+          this.uploadData.filemd5 = filemd5
+        })
       }
     },
     //处理图片上传成功后的操作
     handleThumbSuccess(response, file, fileList){
       if(response.data.status == this.GLOBAL.SuccessText){
-        this.postForm.upload_img_url = response.data.attachment.upload_file_path
+        const tempData = Object.assign({}, this.postForm)
+        tempData.site_logo = response.data.upload_file_path
+        //将json对象转换为字符串
+        let data = {config_value : JSON.stringify(tempData)}
+        this.doSave(data)
       }else{
         this.GLOBAL.msgNotify('error','失败',response.data.msg)
         return false
@@ -162,17 +178,23 @@ export default {
           //判断是否选择了新图片上传
           if(this.hasSelectFileUpload){
             this.$refs.upload.submit()
+          }else{
+            //将json对象转换为字符串
+            let data = {config_value : JSON.stringify(this.postForm)}
+            this.doSave(data)
           }
-          saveSysConfig(this.postForm).then((response) => {
-            if(response.data.status == this.GLOBAL.SuccessText){
-              if(typeof(this.postForm.upload_img_url) != 'undefined'){
-                this.postForm.site_logo = this.postForm.upload_img_url
-              }
-              this.GLOBAL.msgNotify('success','成功',response.data.msg)
-            }else{
-              this.GLOBAL.msgNotify('error','失败',response.data.msg)
-            }
-          })
+        }
+      })
+    },
+    doSave(data){
+      saveSysConfig(data).then((response) => {
+        if(response.data.status == this.GLOBAL.SuccessText){
+          if(typeof(this.postForm.upload_img_url) != 'undefined'){
+            this.postForm.site_logo = this.postForm.upload_img_url
+          }
+          this.GLOBAL.msgNotify('success','成功',response.data.msg)
+        }else{
+          this.GLOBAL.msgNotify('error','失败',response.data.msg)
         }
       })
     }

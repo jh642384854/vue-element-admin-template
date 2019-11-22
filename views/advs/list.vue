@@ -77,13 +77,14 @@
               :accept="GLOBAL.AllowImageSuffix"
               :action="GLOBAL.UploadAttachmentUrl"
               list-type="picture"
+              :data="uploadData"
               :auto-upload="false"
               :show-file-list="false"
               :on-success="handleThumbSuccess"
               :on-change="imgPreview">
               <img v-if="postForm.img_url" :src="postForm.img_url" class="thumb">
               <i v-else class="el-icon-plus thumb-uploader-icon"></i>
-              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              <div slot="tip" class="el-upload__tip">{{ GLOBAL.ImageUploadTips }}</div>
             </el-upload>
         </el-form-item>
       </el-form>
@@ -107,6 +108,7 @@
 <script>
 // 参考手册：https://xuliangzhan.com/xe-utils/index.html#/
 import XEUtils from 'xe-utils'
+
 
 import { fetchAdvcategories,createAdvs,updateAdvs,deleteAdvs,fetchAdvs } from '@/api/advs'
 
@@ -153,14 +155,18 @@ export default {
         update: '修改',
         create: '创建'
       },
+      //上传附件提交的额外数据
+      uploadData:{
+        filemd5:'',
+        module: 'advs',
+        cid:'',
+      },
       postForm: {
         name:'',
         cid: '',
         img_url: '',
-        upload_img_url:'',
         list_order: '',
-        link_url: '',
-        created_at:''
+        link_url: ''
       },
       rules:{
         name: [{ required: true, message: '广告名称必须填写', trigger: 'blur' }],
@@ -180,6 +186,8 @@ export default {
       if( Object.keys(this.$route.query).length >0 ){
         if(typeof(this.$route.query.cid) != 'undefined' && parseInt(this.$route.query.cid) > 0){
           this.listQuery.cid = this.$route.query.cid
+          this.postForm.cid = parseInt(this.$route.query.cid)
+          this.uploadData.cid = parseInt(this.$route.query.cid)
         }
       }
     },
@@ -211,13 +219,16 @@ export default {
       if(this.GLOBAL.uploadImageCheck(file, fileList)){
         this.hasSelectFileUpload = true
         this.postForm.img_url = file.url
+        this.GLOBAL.getFileMd5(file,filemd5=>{
+          this.uploadData.filemd5 = filemd5
+        })
       }
     },
     //处理图片上传成功后的操作
     handleThumbSuccess(response, file, fileList){
       if(response.data.status == this.GLOBAL.SuccessText){
         const tempData = Object.assign({}, this.postForm)
-        tempData.img_url = response.data.attachment.upload_file_path
+        tempData.img_url = response.data.upload_file_path
         if(typeof(this.postForm.id) != 'undefined'){
           this.doUpdateAdv(tempData)
         }else{
@@ -229,14 +240,16 @@ export default {
       }
     },
     resetTemp() {
+      let cid = ''
+      if(this.postForm.cid != ''){
+        cid = this.postForm.cid
+      }
       this.postForm = {
         name:'',
-        cid: '',
+        cid: cid,
         img_url: '',
-        upload_img_url:'',
         list_order: '',
-        link_url: '',
-        created_at:''
+        link_url: ''
       }
     },
     handleCreate() {
@@ -342,8 +355,10 @@ export default {
         confirmButtonText: '删除',
         cancelButtonText: '放弃'
       }).then(() => {
+        let ids = []
+        ids.push(row.id)
         const data = {
-          "ids":row.id
+          "ids":ids
         }
         deleteAdvs(data).then(response=>{
           if(response.data.status == this.GLOBAL.SuccessText){

@@ -15,7 +15,6 @@
         </template>
       </vxe-table-column>
       <vxe-table-column field="size" title="广告尺寸" :formatter="formatterSize" width="120"></vxe-table-column>
-      <vxe-table-column field="advs" title="广告数量" width="100"></vxe-table-column>
       <vxe-table-column field="description" title="描述" show-overflow></vxe-table-column>
       <vxe-table-column field="created_at" title="创建时间"></vxe-table-column>
       <vxe-table-column title="操作">
@@ -26,7 +25,7 @@
           <router-link :to="'/operation/advs/list?cid='+row.type" class="el-button el-button el-button--mini">
             <span>广告列表</span>
           </router-link>
-          <el-button size="mini" type="danger" v-if="row.advs <= 0" @click="handleDelete(row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(row)">删除</el-button>
         </template>
       </vxe-table-column>
     </vxe-table>

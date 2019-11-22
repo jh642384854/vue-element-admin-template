@@ -62,14 +62,18 @@ export default {
     getList() {
       this.listLoading = true
       fetchCustomConfig().then(response => {
-        this.dynamicValidateForm.customVariables = response.data.results
+        if(response.data.results != ''){
+           this.dynamicValidateForm.customVariables = JSON.parse(response.data.results)
+        }
         this.listLoading = false
       })
     },
     submitForm() {
       this.$refs['dynamicValidateForm'].validate((valid) => {
         if (valid) {
-          saveCustomConfig(this.dynamicValidateForm).then((response) => {
+          //将json对象转换为字符串
+          let data = {config_value : JSON.stringify(this.dynamicValidateForm.customVariables)}
+          saveCustomConfig(data).then((response) => {
             if(response.data.status == this.GLOBAL.SuccessText){
               this.GLOBAL.msgNotify('success','成功',response.data.msg)
             }else{
